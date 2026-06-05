@@ -125,7 +125,7 @@ const tok=()=>session&&session.access_token?session.access_token:K;
 const isAdmin=()=>profile&&(profile.is_admin||(session&&session.user&&session.user.email===ADMIN));
 
 const fmtDate=d=>{if(!d)return"";try{return new Date(d+"T12:00:00").toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"});}catch{return d;}};
-const fmtTime=(d,t)=>{if(!d||!t)return t||"";try{const dt=new Date(d+"T"+(t||"12:00").substring(0,5)+":00-05:00");return dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});}catch{return t||"";}};
+const fmtTime=(d,t)=>{if(!d||!t)return t||"";try{const dt=new Date(d+"T"+(t||"12:00").substring(0,5)+":00-06:00");return dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});}catch{return t||"";}};
 const isStarted=m=>{if(m.started)return true;try{return new Date()>=new Date(m.match_date+"T"+(m.match_time||"12:00").substring(0,5)+":00-05:00");}catch{return false;}};
 const winner=(h,a,hs,as)=>hs>as?h:as>hs?a:"Empate";
 const ou=(hs,as)=>(hs+as)>2?"over":"under";
