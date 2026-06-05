@@ -271,7 +271,7 @@ function App(){
     const ids=ms.map(m=>m.user_id);
     setMembers(ids);
     if(ids.length===0)return;
-    const profs=await req(SUPA_URL+"/rest/v1/profiles?id=in.("+ids.join(",")+"&select=*",tok);
+    const profs=await req(SUPA_URL+"/rest/v1/profiles?id=in.("+ids.join(",")+")"+"&select=*",tok);
     if(Array.isArray(profs)){const map={};profs.forEach(p=>{map[p.id]=p;});setMemberProfiles(map);}
     const filter=ids.map(id=>"user_id=eq."+id).join(",");
     const pp=await req(SUPA_URL+"/rest/v1/predictions?or=("+filter+")&select=*",tok);
