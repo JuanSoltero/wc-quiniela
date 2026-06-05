@@ -298,7 +298,7 @@ const selectGroup=async id=>{
 
 const renderMatches=()=>{
   const m=$("main");
-  const fm=matches.filter(mt=>mt.phase===phase);
+  const fm=matches.filter(mt=>mt.phase===phase).sort((a,b)=>a.match_date>b.match_date?1:a.match_date<b.match_date?-1:a.match_time>b.match_time?1:-1);
   const myPreds=preds[profile.id]||{};
   m.innerHTML=`<div class="st">Partidos</div>
   <div class="ss">${fm.filter(mt=>myPreds[mt.id]).length} predicciones en esta fase</div>
