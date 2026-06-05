@@ -120,7 +120,36 @@ const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const ADMIN_EMAIL = "juanalvarosoltero@gmail.com";
 const PHASES = ["Fase de Grupos","Octavos de Final","Cuartos de Final","Semifinal","Tercer Lugar","Final"];
 const AVATARS = ["⚽","🏆","🌟","🔥","💪","🦁","🐯","🦊","🦅","🎯","🚀","⚡","💎","🎖️","🏅","🐉","👑","🌙","☀️","🎪"];
-const FLAGS = {"México":"🇲🇽","Canadá":"🇨🇦","Uruguay":"🇺🇾","Senegal":"🇸🇳","España":"🇪🇸","Marruecos":"🇲🇦","Croacia":"🇭🇷","Bélgica":"🇧🇪","Brasil":"🇧🇷","Japón":"🇯🇵","Suiza":"🇨🇭","Camerún":"🇨🇲","Argentina":"🇦🇷","Polonia":"🇵🇱","Arabia Saudita":"🇸🇦","Australia":"🇦🇺","Francia":"🇫🇷","Países Bajos":"🇳🇱","Ecuador":"🇪🇨","Qatar":"🇶🇦","Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Irán":"🇮🇷","Estados Unidos":"🇺🇸","Gales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","Portugal":"🇵🇹","Ghana":"🇬🇭","Corea del Sur":"🇰🇷","Alemania":"🇩🇪","Costa Rica":"🇨🇷","Empate":"🤝"};
+const FLAGS = {
+  "México":"🇲🇽","Canadá":"🇨🇦","Uruguay":"🇺🇾","Senegal":"🇸🇳",
+  "España":"🇪🇸","Marruecos":"🇲🇦","Croacia":"🇭🇷","Bélgica":"🇧🇪",
+  "Brasil":"🇧🇷","Japón":"🇯🇵","Suiza":"🇨🇭","Camerún":"🇨🇲",
+  "Argentina":"🇦🇷","Polonia":"🇵🇱","Arabia Saudita":"🇸🇦","Australia":"🇦🇺",
+  "Francia":"🇫🇷","Países Bajos":"🇳🇱","Ecuador":"🇪🇨","Qatar":"🇶🇦",
+  "Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Irán":"🇮🇷","Estados Unidos":"🇺🇸","Gales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+  "Portugal":"🇵🇹","Ghana":"🇬🇭","Corea del Sur":"🇰🇷","Alemania":"🇩🇪",
+  "Costa Rica":"🇨🇷","Italia":"🇮🇹","Empate":"🤝",
+  "Sudáfrica":"🇿🇦","República Checa":"🇨🇿","Bosnia y Herzegovina":"🇧🇦",
+  "Escocia":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Haití":"🇭🇹","Paraguay":"🇵🇾","Turquía":"🇹🇷",
+  "Costa de Marfil":"🇨🇮","Curazao":"🇨🇼","Túnez":"🇹🇳","Suecia":"🇸🇪",
+  "Egipto":"🇪🇬","Nueva Zelanda":"🇳🇿","Cabo Verde":"🇨🇻","Noruega":"🇳🇴",
+  "Irak":"🇮🇶","Argelia":"🇩🇿","Austria":"🇦🇹","Jordania":"🇯🇴",
+  "Colombia":"🇨🇴","Uzbekistán":"🇺🇿","R.D. Congo":"🇨🇩","Panamá":"🇵🇦",
+  "Por definir":"🏳️"
+};
+
+// Convierte hora Mexico (CDT = UTC-5) a hora local del usuario
+const toLocalTime = (dateStr, timeStr) => {
+  // Los horarios en DB están en hora de México (CDT = UTC-5)
+  const [h, m] = timeStr.split(":").map(Number);
+  const utcDate = new Date(`${dateStr}T${timeStr}:00-05:00`);
+  return utcDate;
+};
+
+const fmtLocalTime = (dateStr, timeStr) => {
+  const d = toLocalTime(dateStr, timeStr);
+  return d.toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit", timeZoneName: "short" });
+};
 
 const req = async (url, token, opts={}) => {
   const r = await fetch(url, {
@@ -141,7 +170,11 @@ const calcPts=(pred,m)=>{
   return hw&&ho?3:hw||ho?1:0;
 };
 const fmtDate=d=>new Date(d+"T12:00:00").toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"});
-const isStarted=m=>m.started||new Date()>=new Date(`${m.match_date}T${m.match_time}`);
+const isStarted=m=>{
+  if(m.started) return true;
+  const matchUTC = new Date(`${m.match_date}T${(m.match_time||"00:00")}:00-05:00`);
+  return new Date() >= matchUTC;
+};
 
 function Toast({msg,type,onDone}){
   useEffect(()=>{const t=setTimeout(onDone,2600);return()=>clearTimeout(t)},[]);
@@ -155,7 +188,7 @@ function MatchCard({match:m,userPred:pred,onPredict}){
     <div className={`match-card${pred?" predicted":""}${started&&m.home_score==null?" locked":""}${pts===3?" pts3":pts===1?" pts1":""}`}>
       <div className="match-phase">
         <span>{m.match_group?`Grupo ${m.match_group}`:m.phase}</span>
-        <span style={{fontSize:10,color:"var(--text3)"}}>{fmtDate(m.match_date)} · {(m.match_time||"").slice(0,5)}</span>
+        <span style={{fontSize:10,color:"var(--text3)"}}>{fmtDate(m.match_date)} · {fmtLocalTime(m.match_date, m.match_time||"00:00")}</span>
       </div>
       <div className="match-teams">
         <div className="team-side"><span className="team-flag">{FLAGS[m.home]||"🏳️"}</span><span className="team-name">{m.home}</span></div>
