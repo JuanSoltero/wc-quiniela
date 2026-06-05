@@ -1,610 +1,527 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WC Quiniela 2026</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--gold:#FFD700;--gold2:#FFA500;--red:#E63946;--dark:#0A0E1A;--dark2:#111827;--dark3:#1F2937;--text:#F9FAFB;--text2:#D1D5DB;--text3:#9CA3AF;--green:#10B981;--blue:#3B82F6;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08)}
-    body{background:var(--dark);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden}
-    body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(255,215,0,.07) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(230,57,70,.07) 0%,transparent 50%);pointer-events:none;z-index:0}
-    #root{position:relative;z-index:1}
-    .header{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,215,0,.15);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:60px}
-    .logo{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(10,14,26,.97);backdrop-filter:blur(20px);border-top:1px solid rgba(255,215,0,.15);display:flex;justify-content:space-around;padding:8px 0 16px}
-    .nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--text3);font-family:'Barlow',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;padding:6px 12px;border-radius:12px;transition:all .2s;min-width:56px}
-    .nav-icon{font-size:20px;transition:transform .2s}
-    .nav-btn.active{color:var(--gold)}
-    .nav-btn.active .nav-icon{transform:scale(1.15)}
-    .main{padding:20px 16px 96px;max-width:480px;margin:0 auto}
-    .login-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
-    .login-logo{font-family:'Bebas Neue',cursive;font-size:52px;letter-spacing:4px;text-align:center;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
-    .login-sub{font-family:'Barlow Condensed',sans-serif;color:var(--text3);font-size:13px;letter-spacing:3px;text-align:center;text-transform:uppercase;margin-bottom:36px}
-    .login-form{width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
-    .ig{display:flex;flex-direction:column;gap:5px}
-    .il{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
-    .inf{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:12px;padding:13px 16px;color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;outline:none;transition:border-color .2s;width:100%}
-    .inf:focus{border-color:rgba(255,215,0,.5)}
-    .btn{padding:13px 20px;border-radius:12px;border:none;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .2s}
-    .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;box-shadow:0 4px 20px rgba(255,215,0,.25)}
-    .btn-gold:hover{transform:translateY(-1px)}
-    .btn-outline{background:transparent;color:var(--text2);border:1px solid var(--border)}
-    .btn-outline:hover{border-color:var(--gold);color:var(--gold)}
-    .btn-xs{padding:6px 12px;font-size:12px;border-radius:8px}
-    .btn-sm{padding:9px 16px;font-size:13px}
-    .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
-    .section-title{font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:2px;color:var(--gold);margin-bottom:4px}
-    .section-sub{font-size:13px;color:var(--text3);margin-bottom:18px}
-    .divider{height:1px;background:var(--border);margin:16px 0}
-    .badge-admin{display:inline-block;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.5px;background:rgba(255,215,0,.15);color:var(--gold);border:1px solid rgba(255,215,0,.3)}
-    .tabs{display:flex;gap:4px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px}
-    .tab-btn{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;white-space:nowrap;transition:all .2s}
-    .tab-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}
-    .match-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px;transition:border-color .2s}
-    .match-card.predicted{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.04)}
-    .match-card.locked{border-color:rgba(230,57,70,.2)}
-    .match-card.pts3{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.05)}
-    .match-card.pts1{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.05)}
-    .match-phase{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
-    .match-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:12px}
-    .team-side{display:flex;flex-direction:column;align-items:center;gap:3px}
-    .team-flag{font-size:26px}
-    .team-name{font-size:10px;font-weight:700;text-align:center;color:var(--text2)}
-    .match-vs{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--text3);letter-spacing:2px}
-    .match-result{background:rgba(255,255,255,.1);border-radius:8px;padding:4px 10px;font-size:17px;font-weight:700;font-family:'Barlow Condensed',sans-serif;color:var(--gold)}
-    .pred-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-    .pred-btn{flex:1;min-width:0;padding:9px 6px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Barlow',sans-serif}
-    .pred-btn:hover:not(:disabled){border-color:var(--gold);background:rgba(255,215,0,.08)}
-    .pred-btn.sel{border-color:var(--gold);background:rgba(255,215,0,.15)}
-    .pred-btn:disabled{cursor:not-allowed;opacity:.5}
-    .pred-lbl{font-size:9px;color:var(--text3);font-weight:700}
-    .pred-val{font-size:12px;color:var(--text);font-weight:700}
-    .pred-btn.sel .pred-val{color:var(--gold)}
-    .ou-row{display:flex;gap:6px;margin-top:6px}
-    .ou-btn{flex:1;padding:8px;text-align:center;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .18s;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--text2)}
-    .ou-btn:hover:not(:disabled){border-color:var(--blue);background:rgba(59,130,246,.1);color:var(--blue)}
-    .ou-btn.sel{border-color:var(--blue);background:rgba(59,130,246,.15);color:var(--blue)}
-    .ou-btn:disabled{cursor:not-allowed;opacity:.5}
-    .locked-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.3);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;color:var(--red)}
-    .pts-badge{display:inline-flex;align-items:center;gap:3px;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700}
-    .pts3b{background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.4);color:var(--gold)}
-    .pts1b{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.4);color:var(--blue)}
-    .pts0b{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.2);color:var(--red)}
-    .lb-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--border);margin-bottom:8px}
-    .lb-item.r1{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.06)}
-    .lb-item.r2{border-color:rgba(192,192,192,.4)}
-    .lb-item.r3{border-color:rgba(205,127,50,.4)}
-    .lb-pts{font-family:'Bebas Neue',cursive;font-size:26px;color:var(--gold)}
-    .lb-pts span{font-size:12px;color:var(--text3);font-family:'Barlow',sans-serif}
-    .group-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:14px;cursor:pointer;transition:all .22s}
-    .group-card:hover{border-color:rgba(255,215,0,.4);transform:translateY(-2px)}
-    .group-card.active{border-color:var(--gold);background:rgba(255,215,0,.06)}
-    .stat-chip{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:8px 12px;text-align:center;flex:1}
-    .stat-chip-val{font-family:'Bebas Neue',cursive;font-size:24px;color:var(--gold)}
-    .stat-chip-lbl{font-size:9px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase}
-    .modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:20px}
-    .modal{background:var(--dark2);border:1px solid var(--border);border-radius:22px;padding:24px;width:100%;max-width:400px;max-height:82vh;overflow-y:auto}
-    .modal-title{font-family:'Bebas Neue',cursive;font-size:26px;color:var(--gold);letter-spacing:2px;margin-bottom:18px}
-    .toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);z-index:300;background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:11px 18px;font-size:13px;font-weight:600;white-space:nowrap;animation:slideUp .3s ease,fadeOut .3s ease 2.2s forwards}
-    .toast.ok{border-color:rgba(16,185,129,.5);color:var(--green)}
-    .toast.err{border-color:rgba(230,57,70,.5);color:var(--red)}
-    .avatar-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px}
-    .av-opt{font-size:26px;text-align:center;padding:7px;border-radius:9px;cursor:pointer;border:2px solid transparent;transition:all .15s}
-    .av-opt:hover,.av-opt.sel{border-color:var(--gold);background:rgba(255,215,0,.1)}
-    .empty{text-align:center;padding:44px 24px;color:var(--text3)}
-    .invite-box{background:rgba(255,215,0,.08);border:1px dashed rgba(255,215,0,.4);border-radius:12px;padding:14px;text-align:center;margin:12px 0}
-    .invite-code{font-family:'Bebas Neue',cursive;font-size:32px;letter-spacing:6px;color:var(--gold)}
-    .loading{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--text3);font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:2px;text-transform:uppercase}
-    @keyframes slideUp{from{transform:translateX(-50%) translateY(16px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
-    @keyframes fadeOut{from{opacity:1}to{opacity:0;pointer-events:none}}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .spin{animation:spin 1s linear infinite;display:inline-block}
-    ::-webkit-scrollbar{width:3px;height:3px}
-    ::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:2px}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WC Quiniela 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#FFD700;--gold2:#FFA500;--red:#E63946;--dark:#0A0E1A;--dark2:#111827;--dark3:#1F2937;--text:#F9FAFB;--text2:#D1D5DB;--text3:#9CA3AF;--green:#10B981;--blue:#3B82F6;--card:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08)}
+body{background:var(--dark);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh}
+.app{min-height:100vh;background:var(--dark)}
+.header{position:sticky;top:0;z-index:100;background:rgba(10,14,26,.97);border-bottom:1px solid rgba(255,215,0,.15);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(10,14,26,.97);border-top:1px solid rgba(255,215,0,.15);display:flex;justify-content:space-around;padding:8px 0 16px}
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--text3);font-size:10px;font-weight:700;padding:6px 12px;min-width:56px;font-family:'Barlow',sans-serif}
+.nb.on{color:var(--gold)}
+.ni{font-size:20px}
+.main{padding:20px 16px 96px;max-width:480px;margin:0 auto}
+.lp{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background:var(--dark)}
+.ll{font-family:'Bebas Neue',cursive;font-size:52px;letter-spacing:4px;text-align:center;background:linear-gradient(135deg,var(--gold),var(--gold2),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.ls{font-family:'Barlow Condensed',sans-serif;color:var(--text3);font-size:13px;letter-spacing:3px;text-align:center;text-transform:uppercase;margin-bottom:36px}
+.lf{width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
+.ig{display:flex;flex-direction:column;gap:5px}
+.il{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase}
+input.inf{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:12px;padding:13px 16px;color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;outline:none;width:100%}
+input.inf:focus{border-color:rgba(255,215,0,.5)}
+.btn{padding:13px 20px;border-radius:12px;border:none;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;width:100%}
+.bg{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000}
+.bo{background:transparent;color:var(--text2);border:1px solid var(--border)}
+.bxs{padding:6px 12px;font-size:12px;border-radius:8px;width:auto}
+.bsm{padding:9px 16px;font-size:13px;width:auto}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.st{font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:2px;color:var(--gold);margin-bottom:4px}
+.ss{font-size:13px;color:var(--text3);margin-bottom:18px}
+.tabs{display:flex;gap:4px;margin-bottom:18px;overflow-x:auto;padding-bottom:4px}
+.tb{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text3);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;white-space:nowrap}
+.tb.on{background:var(--gold);color:#000;border-color:var(--gold)}
+.mc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:10px}
+.mc.pred{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.04)}
+.mc.lock{border-color:rgba(230,57,70,.2)}
+.mc.p3{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.05)}
+.mc.p1{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.05)}
+.mph{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;justify-content:space-between}
+.mtt{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin-bottom:12px}
+.ts{display:flex;flex-direction:column;align-items:center;gap:3px}
+.tf{font-size:26px}
+.tn{font-size:10px;font-weight:700;text-align:center;color:var(--text2)}
+.mvs{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--text3);letter-spacing:2px}
+.mr{background:rgba(255,255,255,.1);border-radius:8px;padding:4px 10px;font-size:17px;font-weight:700;font-family:'Barlow Condensed',sans-serif;color:var(--gold)}
+.pr{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.pb{flex:1;min-width:0;padding:9px 6px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Barlow',sans-serif}
+.pb:disabled{cursor:not-allowed;opacity:.5}
+.pb.on{border-color:var(--gold);background:rgba(255,215,0,.15)}
+.pl{font-size:9px;color:var(--text3);font-weight:700}
+.pv{font-size:12px;color:var(--text);font-weight:700}
+.pb.on .pv{color:var(--gold)}
+.our{display:flex;gap:6px;margin-top:6px}
+.ob{flex:1;padding:8px;text-align:center;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--text2)}
+.ob:disabled{cursor:not-allowed;opacity:.5}
+.ob.on{border-color:var(--blue);background:rgba(59,130,246,.15);color:var(--blue)}
+.lkb{display:inline-flex;align-items:center;gap:4px;background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.3);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;color:var(--red)}
+.ptb{display:inline-flex;align-items:center;gap:3px;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700}
+.pt3{background:rgba(255,215,0,.15);border:1px solid rgba(255,215,0,.4);color:var(--gold)}
+.pt1{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.4);color:var(--blue)}
+.pt0{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.2);color:var(--red)}
+.li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--border);margin-bottom:8px}
+.li.r1{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.06)}
+.li.r2{border-color:rgba(192,192,192,.4)}
+.li.r3{border-color:rgba(205,127,50,.4)}
+.lpts{font-family:'Bebas Neue',cursive;font-size:26px;color:var(--gold)}
+.lpts span{font-size:12px;color:var(--text3);font-family:'Barlow',sans-serif}
+.gc{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;margin-bottom:14px;cursor:pointer}
+.gc.on{border-color:var(--gold);background:rgba(255,215,0,.06)}
+.sc{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:8px 12px;text-align:center;flex:1}
+.sv{font-family:'Bebas Neue',cursive;font-size:24px;color:var(--gold)}
+.sl{font-size:9px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.mo{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;padding:20px}
+.md{background:var(--dark2);border:1px solid var(--border);border-radius:22px;padding:24px;width:100%;max-width:400px;max-height:82vh;overflow-y:auto}
+.mt{font-family:'Bebas Neue',cursive;font-size:26px;color:var(--gold);letter-spacing:2px;margin-bottom:18px}
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);z-index:300;background:var(--dark3);border:1px solid var(--border);border-radius:12px;padding:11px 18px;font-size:13px;font-weight:600;white-space:nowrap}
+.tok{border-color:rgba(16,185,129,.5);color:var(--green)}
+.ter{border-color:rgba(230,57,70,.5);color:var(--red)}
+.ag{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px}
+.ao{font-size:26px;text-align:center;padding:7px;border-radius:9px;cursor:pointer;border:2px solid transparent}
+.ao.on{border-color:var(--gold);background:rgba(255,215,0,.1)}
+.empty{text-align:center;padding:44px 24px;color:var(--text3)}
+.ib{background:rgba(255,215,0,.08);border:1px dashed rgba(255,215,0,.4);border-radius:12px;padding:14px;text-align:center;margin:12px 0}
+.ic{font-family:'Bebas Neue',cursive;font-size:32px;letter-spacing:6px;color:var(--gold)}
+.load{min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--text3);font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin 1s linear infinite;display:inline-block;font-size:40px}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,215,0,.3);border-radius:2px}
+</style>
 </head>
 <body>
-<div id="root"><div class="loading"><div class="spin" style="font-size:40px">⚽</div>CARGANDO...</div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.21.4/babel.min.js"></script>
-<script type="text/babel" data-presets="react">
-const{useState,useEffect,useCallback}=React;
-const SUPA_URL="https://drzdkghucqgjedfsblbt.supabase.co";
-const SUPA_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyemRrZ2h1Y3FnamVkZnNibGJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1Mjg0MTQsImV4cCI6MjA5NjEwNDQxNH0.pmiVKy4byc7FutacGwMSjMLzMk-rVB0mcaMGAoHoG_c";
-const ADMIN_EMAIL="juanalvarosoltero@gmail.com";
+<div id="app"><div class="load"><div class="spin">⚽</div>CARGANDO...</div></div>
+<script>
+const S="https://drzdkghucqgjedfsblbt.supabase.co";
+const K="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyemRrZ2h1Y3FnamVkZnNibGJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1Mjg0MTQsImV4cCI6MjA5NjEwNDQxNH0.pmiVKy4byc7FutacGwMSjMLzMk-rVB0mcaMGAoHoG_c";
+const ADMIN="juanalvarosoltero@gmail.com";
 const PHASES=["Fase de Grupos","Dieciseisavos de Final","Octavos de Final","Cuartos de Final","Semifinal","Tercer Lugar","Final"];
-const AVATARS=["⚽","🏆","🌟","🔥","💪","🦁","🐯","🦊","🦅","🎯","🚀","⚡","💎","🎖️","🏅","🐉","👑","🌙","☀️","🎪"];
-const FLAGS={
-  "México":"🇲🇽","Canadá":"🇨🇦","Uruguay":"🇺🇾","Senegal":"🇸🇳",
-  "España":"🇪🇸","Marruecos":"🇲🇦","Croacia":"🇭🇷","Bélgica":"🇧🇪",
-  "Brasil":"🇧🇷","Japón":"🇯🇵","Suiza":"🇨🇭","Camerún":"🇨🇲",
-  "Argentina":"🇦🇷","Polonia":"🇵🇱","Arabia Saudita":"🇸🇦","Australia":"🇦🇺",
-  "Francia":"🇫🇷","Países Bajos":"🇳🇱","Ecuador":"🇪🇨","Qatar":"🇶🇦",
-  "Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Irán":"🇮🇷","Estados Unidos":"🇺🇸","Gales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿",
-  "Portugal":"🇵🇹","Ghana":"🇬🇭","Corea del Sur":"🇰🇷","Alemania":"🇩🇪",
-  "Costa Rica":"🇨🇷","Empate":"🤝","Sudáfrica":"🇿🇦","República Checa":"🇨🇿",
-  "Bosnia y Herzegovina":"🇧🇦","Escocia":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Haití":"🇭🇹","Paraguay":"🇵🇾",
-  "Turquía":"🇹🇷","Costa de Marfil":"🇨🇮","Curazao":"🇨🇼","Túnez":"🇹🇳",
-  "Suecia":"🇸🇪","Egipto":"🇪🇬","Nueva Zelanda":"🇳🇿","Cabo Verde":"🇨🇻",
-  "Noruega":"🇳🇴","Irak":"🇮🇶","Argelia":"🇩🇿","Austria":"🇦🇹",
-  "Jordania":"🇯🇴","Colombia":"🇨🇴","Uzbekistán":"🇺🇿","R.D. Congo":"🇨🇩",
-  "Panamá":"🇵🇦","Por definir":"🏳️"
-};
+const AVS=["⚽","🏆","🌟","🔥","💪","🦁","🐯","🦊","🦅","🎯","🚀","⚡","💎","👑","🌙","☀️","🎪","🐉","🏅","🎖️"];
+const FL={"México":"🇲🇽","Canadá":"🇨🇦","Uruguay":"🇺🇾","Senegal":"🇸🇳","España":"🇪🇸","Marruecos":"🇲🇦","Croacia":"🇭🇷","Bélgica":"🇧🇪","Brasil":"🇧🇷","Japón":"🇯🇵","Suiza":"🇨🇭","Argentina":"🇦🇷","Polonia":"🇵🇱","Arabia Saudita":"🇸🇦","Australia":"🇦🇺","Francia":"🇫🇷","Países Bajos":"🇳🇱","Ecuador":"🇪🇨","Qatar":"🇶🇦","Inglaterra":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Irán":"🇮🇷","Estados Unidos":"🇺🇸","Portugal":"🇵🇹","Ghana":"🇬🇭","Corea del Sur":"🇰🇷","Alemania":"🇩🇪","Costa Rica":"🇨🇷","Empate":"🤝","Sudáfrica":"🇿🇦","República Checa":"🇨🇿","Bosnia y Herzegovina":"🇧🇦","Escocia":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Haití":"🇭🇹","Paraguay":"🇵🇾","Turquía":"🇹🇷","Costa de Marfil":"🇨🇮","Curazao":"🇨🇼","Túnez":"🇹🇳","Suecia":"🇸🇪","Egipto":"🇪🇬","Nueva Zelanda":"🇳🇿","Cabo Verde":"🇨🇻","Noruega":"🇳🇴","Irak":"🇮🇶","Argelia":"🇩🇿","Austria":"🇦🇹","Jordania":"🇯🇴","Colombia":"🇨🇴","Uzbekistán":"🇺🇿","R.D. Congo":"🇨🇩","Panamá":"🇵🇦","Por definir":"🏳️"};
 
-const req=async(url,token,opts={})=>{
-  const r=await fetch(url,{...opts,headers:{"Content-Type":"application/json","apikey":SUPA_KEY,"Authorization":`Bearer ${token||SUPA_KEY}`,"Prefer":"return=representation",...(opts.headers||{})}});
-  if(r.status===204)return[];
-  return r.json();
-};
+// State
+let session=null,profile=null,groups=[],curGroup=null,members=[],mProfs={},matches=[],preds={},page="groups",phase="Fase de Grupos",modal=null,adminScores={},toastT=null;
 
-const getWinner=(h,a,hs,as)=>hs>as?h:as>hs?a:"Empate";
-const getOU=(hs,as)=>(hs+as)>2?"over":"under";
-const calcPts=(pred,m)=>{
-  if(m.home_score==null||!pred||!pred.winner)return null;
-  const cw=getWinner(m.home,m.away,m.home_score,m.away_score);
-  const co=getOU(m.home_score,m.away_score);
-  const hw=pred.winner===cw,ho=pred.over_under===co;
-  return hw&&ho?3:hw||ho?1:0;
-};
-
-const parseMatchUTC=(dateStr,timeStr)=>{
-  if(!dateStr)return new Date(0);
-  const t=(timeStr||"12:00").substring(0,5);
-  return new Date(dateStr+"T"+t+":00-05:00");
-};
-
-const fmtDate=d=>{
-  if(!d)return"";
-  return new Date(d+"T12:00:00").toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"});
-};
-
-const fmtTime=(dateStr,timeStr)=>{
+// Helpers
+const $=id=>document.getElementById(id);
+const h=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const api=async(url,tok,opts={})=>{
   try{
-    const d=parseMatchUTC(dateStr,timeStr);
-    if(isNaN(d.getTime()))return timeStr||"";
-    return d.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"})+" "+d.toLocaleDateString([],{timeZoneName:"short"}).split(",").pop().trim();
-  }catch(e){return timeStr||"";}
+    const r=await fetch(url,{...opts,headers:{"Content-Type":"application/json","apikey":K,"Authorization":"Bearer "+(tok||K),"Prefer":"return=representation",...(opts.headers||{})}});
+    if(r.status===204)return[];
+    const j=await r.json();
+    return j;
+  }catch(e){console.error(e);return null;}
+};
+const saveS=s=>{session=s;s?localStorage.setItem("wc_s",JSON.stringify(s)):localStorage.removeItem("wc_s");};
+const loadS=()=>{try{return JSON.parse(localStorage.getItem("wc_s")||"null");}catch{return null;}};
+const tok=()=>session&&session.access_token?session.access_token:K;
+const isAdmin=()=>profile&&(profile.is_admin||(session&&session.user&&session.user.email===ADMIN));
+
+const fmtDate=d=>{if(!d)return"";try{return new Date(d+"T12:00:00").toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"});}catch{return d;}};
+const fmtTime=(d,t)=>{if(!d||!t)return t||"";try{const dt=new Date(d+"T"+(t||"12:00").substring(0,5)+":00-05:00");return dt.toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});}catch{return t||"";}};
+const isStarted=m=>{if(m.started)return true;try{return new Date()>=new Date(m.match_date+"T"+(m.match_time||"12:00").substring(0,5)+":00-05:00");}catch{return false;}};
+const winner=(h,a,hs,as)=>hs>as?h:as>hs?a:"Empate";
+const ou=(hs,as)=>(hs+as)>2?"over":"under";
+const pts=(pred,m)=>{if(m.home_score==null||!pred||!pred.winner)return null;const hw=pred.winner===winner(m.home,m.away,m.home_score,m.away_score),ho=pred.over_under===ou(m.home_score,m.away_score);return hw&&ho?3:hw||ho?1:0;};
+
+const showToast=(msg,type)=>{
+  if(toastT)clearTimeout(toastT);
+  const el=document.createElement("div");
+  el.className="toast "+(type==="error"?"ter":"tok");
+  el.textContent=msg;
+  document.body.appendChild(el);
+  toastT=setTimeout(()=>el.remove(),2500);
 };
 
-const isStarted=m=>{
-  if(m.started)return true;
-  return new Date()>=parseMatchUTC(m.match_date,m.match_time);
+// RENDER
+const render=()=>{
+  if(!session||!session.access_token){renderLogin();return;}
+  renderApp();
 };
 
-function Toast({msg,type,onDone}){
-  useEffect(()=>{const t=setTimeout(onDone,2600);return()=>clearTimeout(t);},[]);
-  return React.createElement("div",{className:"toast "+(type==="error"?"err":"ok")},msg);
-}
+const renderLogin=()=>{
+  $("app").innerHTML=`
+  <div class="lp">
+    <div style="font-size:52px;text-align:center;margin-bottom:8px">⚽</div>
+    <div class="ll">WC Quiniela</div>
+    <div class="ls">Mundial 2026 · Predicciones</div>
+    <div class="lf" id="lf"></div>
+  </div>`;
+  renderLoginForm();
+};
 
-function MatchCard({match:m,userPred:pred,onPredict}){
-  const started=isStarted(m);
-  const pts=pred&&m.home_score!=null?calcPts(pred,m):null;
-  return(
-    <div className={"match-card"+(pred?" predicted":"")+(started&&m.home_score==null?" locked":"")+(pts===3?" pts3":pts===1?" pts1":"")}>
-      <div className="match-phase">
-        <span>{m.match_group?"Grupo "+m.match_group:m.phase}</span>
-        <span style={{fontSize:10,color:"var(--text3)"}}>{fmtDate(m.match_date)} {fmtTime(m.match_date,m.match_time)}</span>
-      </div>
-      <div className="match-teams">
-        <div className="team-side"><span className="team-flag">{FLAGS[m.home]||"🏳️"}</span><span className="team-name">{m.home}</span></div>
-        {m.home_score!=null?<div className="match-result">{m.home_score} – {m.away_score}</div>:<span className="match-vs">VS</span>}
-        <div className="team-side"><span className="team-flag">{FLAGS[m.away]||"🏳️"}</span><span className="team-name">{m.away}</span></div>
-      </div>
-      {pts!=null&&<div style={{marginBottom:8}}><span className={"pts-badge "+(pts===3?"pts3b":pts===1?"pts1b":"pts0b")}>{pts===3?"🏆 +3 PTS":pts===1?"✅ +1 PT":"❌ 0 PTS"}</span>{pred&&<span style={{fontSize:11,color:"var(--text3)",marginLeft:6}}>{FLAGS[pred.winner]||""} {pred.winner} · {pred.over_under==="over"?"Over 2.5":"Under 2.5"}</span>}</div>}
-      {pred&&m.home_score==null&&<div style={{marginBottom:8,fontSize:11,color:"var(--text3)"}}>Tu pick: <strong style={{color:"var(--text2)"}}>{FLAGS[pred.winner]||""} {pred.winner}</strong>{pred.over_under&&<span> · <strong style={{color:"var(--blue)"}}>{pred.over_under==="over"?"Over 2.5":"Under 2.5"}</strong></span>}</div>}
-      {started?(!pred&&!m.home_score&&<span className="locked-badge">🔒 Cerrado</span>):(
-        <div>
-          <div className="pred-row">
-            {[m.home,"Empate",m.away].map(opt=>(
-              <button key={opt} className={"pred-btn"+(pred&&pred.winner===opt?" sel":"")} onClick={()=>onPredict(m.id,"winner",opt)}>
-                <span className="pred-lbl">{opt==="Empate"?"Empate":"Ganador"}</span>
-                <span className="pred-val">{FLAGS[opt]||opt}</span>
-              </button>
-            ))}
-          </div>
-          <div className="ou-row">
-            <button className={"ou-btn"+(pred&&pred.over_under==="over"?" sel":"")} onClick={()=>onPredict(m.id,"over_under","over")}>⬆ Over 2.5</button>
-            <button className={"ou-btn"+(pred&&pred.over_under==="under"?" sel":"")} onClick={()=>onPredict(m.id,"over_under","under")}>⬇ Under 2.5</button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+let showReg=false,regAvatar="⚽";
+const renderLoginForm=()=>{
+  const f=$("lf");
+  if(!showReg){
+    f.innerHTML=`
+    <div class="ig"><label class="il">Email</label><input class="inf" id="le" type="email" placeholder="tu@email.com"/></div>
+    <div class="ig"><label class="il">Contraseña</label><input class="inf" id="lp" type="password" placeholder="••••••••"/></div>
+    <div id="lerr" style="color:var(--red);font-size:12px;text-align:center;display:none"></div>
+    <button class="btn bg" id="lbtn">Entrar</button>
+    <button class="btn bo" id="rbtn">Crear cuenta nueva</button>`;
+    $("lbtn").onclick=doLogin;
+    $("le").onkeydown=$("lp").onkeydown=e=>{if(e.key==="Enter")doLogin();};
+    $("rbtn").onclick=()=>{showReg=true;renderLoginForm();};
+  } else {
+    f.innerHTML=`
+    <div class="ig"><label class="il">Nombre</label><input class="inf" id="rn" placeholder="Tu nombre o apodo"/></div>
+    <div class="ig"><label class="il">Email</label><input class="inf" id="re" type="email" placeholder="tu@email.com"/></div>
+    <div class="ig"><label class="il">Contraseña</label><input class="inf" id="rp" type="password" placeholder="••••••••"/></div>
+    <div class="ig"><label class="il">Avatar</label><div class="ag" id="ag">${AVS.map(a=>`<div class="ao${a===regAvatar?" on":""}" onclick="regAvatar='${a}';renderLoginForm()">${a}</div>`).join("")}</div></div>
+    <button class="btn bg" id="crbtn">Crear cuenta</button>
+    <button class="btn bo" onclick="showReg=false;renderLoginForm()">← Regresar</button>`;
+    $("crbtn").onclick=doRegister;
+  }
+};
 
-function App(){
-  const[session,setSession]=useState(()=>{try{return JSON.parse(localStorage.getItem("wc_s")||"null");}catch{return null;}});
-  const[profile,setProfile]=useState(null);
-  const[groups,setGroups]=useState([]);
-  const[currentGroup,setCurrentGroup]=useState(null);
-  const[members,setMembers]=useState([]);
-  const[memberProfiles,setMemberProfiles]=useState({});
-  const[matches,setMatches]=useState([]);
-  const[preds,setPreds]=useState({});
-  const[page,setPage]=useState("groups");
-  const[appLoading,setAppLoading]=useState(false);
-  const[loading,setLoading]=useState(false);
-  const[toast,setToast]=useState(null);
-  const[modal,setModal]=useState(null);
-  const[phase,setPhase]=useState("Fase de Grupos");
-  const[loginEmail,setLoginEmail]=useState("");
-  const[loginPass,setLoginPass]=useState("");
-  const[loginErr,setLoginErr]=useState("");
-  const[showReg,setShowReg]=useState(false);
-  const[regName,setRegName]=useState("");
-  const[regEmail,setRegEmail]=useState("");
-  const[regPass,setRegPass]=useState("");
-  const[regAvatar,setRegAvatar]=useState("⚽");
-  const[editName,setEditName]=useState("");
-  const[editAvatar,setEditAvatar]=useState("");
-  const[newGName,setNewGName]=useState("");
-  const[joinCode,setJoinCode]=useState("");
-  const[adminScores,setAdminScores]=useState({});
+const doLogin=async()=>{
+  const e=$("le").value,p=$("lp").value;
+  if(!e||!p)return;
+  $("lbtn").textContent="Entrando...";$("lbtn").disabled=true;
+  const d=await fetch(S+"/auth/v1/token?grant_type=password",{method:"POST",headers:{"Content-Type":"application/json","apikey":K},body:JSON.stringify({email:e,password:p})}).then(r=>r.json());
+  if(!d.access_token){
+    $("lerr").textContent="Email o contraseña incorrectos";$("lerr").style.display="block";
+    $("lbtn").textContent="Entrar";$("lbtn").disabled=false;
+  } else {
+    saveS(d);await initApp();render();
+  }
+};
 
-  const showToast=(msg,type="success")=>setToast({msg,type});
-  const token=session&&session.access_token?session.access_token:SUPA_KEY;
-  const isAdmin=profile&&(profile.is_admin||session.user.email===ADMIN_EMAIL);
-  const saveSession=s=>{setSession(s);s?localStorage.setItem("wc_s",JSON.stringify(s)):localStorage.removeItem("wc_s");};
+const doRegister=async()=>{
+  const n=$("rn").value,e=$("re").value,p=$("rp").value;
+  if(!n||!e||!p){showToast("Completa todos los campos","error");return;}
+  $("crbtn").textContent="Creando...";$("crbtn").disabled=true;
+  const d=await fetch(S+"/auth/v1/signup",{method:"POST",headers:{"Content-Type":"application/json","apikey":K},body:JSON.stringify({email:e,password:p,options:{data:{name:n,avatar:regAvatar}}})}).then(r=>r.json());
+  if(d.error){showToast(d.error.message||"Error","error");$("crbtn").textContent="Crear cuenta";$("crbtn").disabled=false;}
+  else{showToast("¡Cuenta creada! Ya puedes entrar");showReg=false;renderLoginForm();}
+};
 
-  const loadProfile=useCallback(async(tok,uid)=>{
-    const d=await req(SUPA_URL+"/rest/v1/profiles?id=eq."+uid+"&select=*",tok);
-    if(d&&d[0])setProfile(d[0]);
-  },[]);
+const initApp=async()=>{
+  if(!session||!session.access_token)return;
+  const t=tok(),uid=session.user.id;
+  const [pr,gr,mt]=await Promise.all([
+    api(S+"/rest/v1/profiles?id=eq."+uid+"&select=*",t),
+    api(S+"/rest/v1/groups?select=*",t),
+    api(S+"/rest/v1/matches?select=*&order=match_date.asc,match_time.asc",t)
+  ]);
+  if(pr&&pr[0])profile=pr[0];
+  if(Array.isArray(gr))groups=gr;
+  if(Array.isArray(mt))matches=mt;
+};
 
-  const loadGroups=useCallback(async(tok)=>{
-    const d=await req(SUPA_URL+"/rest/v1/groups?select=*",tok);
-    if(Array.isArray(d))setGroups(d);
-  },[]);
+const loadGroupData=async(gid)=>{
+  const t=tok();
+  const ms=await api(S+"/rest/v1/group_members?group_id=eq."+gid+"&select=user_id",t);
+  if(!Array.isArray(ms))return;
+  members=ms.map(m=>m.user_id);
+  if(members.length===0){mProfs={};preds={};return;}
+  const [pr,pp]=await Promise.all([
+    api(S+"/rest/v1/profiles?id=in.("+members.join(",")+")"+"&select=*",t),
+    api(S+"/rest/v1/predictions?or=("+members.map(id=>"user_id=eq."+id).join(",")+")"+"&select=*",t)
+  ]);
+  if(Array.isArray(pr)){mProfs={};pr.forEach(p=>{mProfs[p.id]=p;});}
+  if(Array.isArray(pp)){preds={};pp.forEach(p=>{if(!preds[p.user_id])preds[p.user_id]={};preds[p.user_id][p.match_id]=p;});}
+};
 
-  const loadMatches=useCallback(async(tok)=>{
-    const d=await req(SUPA_URL+"/rest/v1/matches?select=*&order=match_date.asc,match_time.asc",tok);
-    if(Array.isArray(d))setMatches(d);
-  },[]);
-
-  const loadGroupData=useCallback(async(tok,gid)=>{
-    const ms=await req(SUPA_URL+"/rest/v1/group_members?group_id=eq."+gid+"&select=user_id",tok);
-    if(!Array.isArray(ms))return;
-    const ids=ms.map(m=>m.user_id);
-    setMembers(ids);
-    if(ids.length===0)return;
-    const profs=await req(SUPA_URL+"/rest/v1/profiles?id=in.("+ids.join(",")+")"+"&select=*",tok);
-    if(Array.isArray(profs)){const map={};profs.forEach(p=>{map[p.id]=p;});setMemberProfiles(map);}
-    const filter=ids.map(id=>"user_id=eq."+id).join(",");
-    const pp=await req(SUPA_URL+"/rest/v1/predictions?or=("+filter+")&select=*",tok);
-    if(Array.isArray(pp)){const map={};pp.forEach(p=>{if(!map[p.user_id])map[p.user_id]={};map[p.user_id][p.match_id]=p;});setPreds(map);}
-  },[]);
-
-  useEffect(()=>{
-    if(!session||!session.access_token)return;
-    setAppLoading(true);
-    Promise.all([loadProfile(session.access_token,session.user.id),loadGroups(session.access_token),loadMatches(session.access_token)]).finally(()=>setAppLoading(false));
-  },[session]);
-
-  const handleLogin=async()=>{
-    setLoading(true);setLoginErr("");
-    const d=await fetch(SUPA_URL+"/auth/v1/token?grant_type=password",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPA_KEY},body:JSON.stringify({email:loginEmail,password:loginPass})}).then(r=>r.json());
-    if(!d.access_token){setLoginErr("Email o contraseña incorrectos");}else{saveSession(d);}
-    setLoading(false);
-  };
-
-  const handleRegister=async()=>{
-    if(!regName||!regEmail||!regPass){showToast("Completa todos los campos","error");return;}
-    setLoading(true);
-    const d=await fetch(SUPA_URL+"/auth/v1/signup",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPA_KEY},body:JSON.stringify({email:regEmail,password:regPass,options:{data:{name:regName,avatar:regAvatar}}})}).then(r=>r.json());
-    if(d.error){showToast(d.error.message||"Error","error");}else{showToast("¡Cuenta creada! Ya puedes entrar");setShowReg(false);setLoginEmail(regEmail);setLoginPass(regPass);}
-    setLoading(false);
-  };
-
-  const handleLogout=()=>{saveSession(null);setProfile(null);setCurrentGroup(null);setPage("groups");};
-
-  const handleSelectGroup=async g=>{
-    setCurrentGroup(g);setPage("matches");setLoading(true);
-    await loadGroupData(session.access_token,g.id);
-    setLoading(false);
-  };
-
-  const handleCreateGroup=async()=>{
-    if(!newGName.trim())return;
-    setLoading(true);
-    const r=await req(SUPA_URL+"/rest/v1/groups",session.access_token,{method:"POST",body:JSON.stringify({name:newGName.trim(),admin_id:profile.id})});
-    if(Array.isArray(r)&&r[0]){
-      await req(SUPA_URL+"/rest/v1/group_members",session.access_token,{method:"POST",body:JSON.stringify({group_id:r[0].id,user_id:profile.id})});
-      await loadGroups(session.access_token);
-      setCurrentGroup(r[0]);setModal(null);setNewGName("");setPage("matches");
-      await loadGroupData(session.access_token,r[0].id);
-      showToast("Grupo \""+r[0].name+"\" creado 🎉");
-    }else showToast("Error al crear","error");
-    setLoading(false);
-  };
-
-  const handleJoin=async()=>{
-    if(!joinCode.trim())return;
-    setLoading(true);
-    const found=await req(SUPA_URL+"/rest/v1/groups?invite_code=eq."+joinCode.trim()+"&select=*",session.access_token);
-    if(!Array.isArray(found)||!found[0]){showToast("Código inválido","error");setLoading(false);return;}
-    const g=found[0];
-    await req(SUPA_URL+"/rest/v1/group_members",session.access_token,{method:"POST",body:JSON.stringify({group_id:g.id,user_id:profile.id})});
-    await loadGroups(session.access_token);
-    setCurrentGroup(g);setJoinCode("");setModal(null);setPage("matches");
-    await loadGroupData(session.access_token,g.id);
-    showToast("¡Te uniste a "+g.name+"!");
-    setLoading(false);
-  };
-
-  const handlePredict=async(matchId,field,value)=>{
-    const m=matches.find(x=>x.id===matchId);
-    if(!m||isStarted(m))return;
-    const existing=preds[profile.id]&&preds[profile.id][matchId]?preds[profile.id][matchId]:{};
-    const np=Object.assign({},existing,{user_id:profile.id,match_id:matchId,updated_at:new Date().toISOString()});
-    np[field]=value;
-    setPreds(prev=>{const n=Object.assign({},prev);if(!n[profile.id])n[profile.id]={};n[profile.id]=Object.assign({},n[profile.id]);n[profile.id][matchId]=np;return n;});
-    await req(SUPA_URL+"/rest/v1/predictions?on_conflict=user_id,match_id",session.access_token,{method:"POST",headers:{"Prefer":"return=representation,resolution=merge-duplicates"},body:JSON.stringify(np)});
-    showToast("Guardado ✓");
-  };
-
-  const handleSetResult=async mid=>{
-    const s=adminScores[mid];
-    if(!s||s.home==null||s.away==null||s.home===""||s.away==="")return;
-    await req(SUPA_URL+"/rest/v1/matches?id=eq."+mid,session.access_token,{method:"PATCH",body:JSON.stringify({home_score:parseInt(s.home),away_score:parseInt(s.away),started:true})});
-    await loadMatches(session.access_token);
-    showToast("Resultado guardado ✓");
-  };
-
-  const handleSaveProfile=async()=>{
-    if(!editName.trim())return;
-    await req(SUPA_URL+"/rest/v1/profiles?id=eq."+profile.id,session.access_token,{method:"PATCH",body:JSON.stringify({name:editName,avatar:editAvatar||profile.avatar})});
-    setProfile(p=>Object.assign({},p,{name:editName,avatar:editAvatar||p.avatar}));
-    setModal(null);showToast("Perfil actualizado ✓");
-  };
-
-  const getLeaderboard=()=>members.map(uid=>{
-    const up=preds[uid]||{};let pts=0,correct=0,total=0;
-    matches.forEach(m=>{if(m.home_score!=null&&up[m.id]){const p=calcPts(up[m.id],m);if(p!=null){pts+=p;total++;if(p>0)correct++;}}});
-    return{uid,pts,correct,total,prof:memberProfiles[uid]};
-  }).sort((a,b)=>b.pts-a.pts);
-
-  if(appLoading)return(<div className="loading"><div className="spin" style={{fontSize:40}}>⚽</div>Cargando...</div>);
-
-  if(!session||!session.access_token)return(
-    <div className="login-page">
-      {toast&&<Toast msg={toast.msg} type={toast.type} onDone={()=>setToast(null)}/>}
-      <div style={{fontSize:52,textAlign:"center",marginBottom:8}}>⚽</div>
-      <div className="login-logo">WC Quiniela</div>
-      <div className="login-sub">Mundial 2026 · Predicciones</div>
-      {!showReg?(
-        <div className="login-form">
-          <div className="ig"><label className="il">Email</label><input className="inf" type="email" placeholder="tu@email.com" value={loginEmail} onChange={e=>setLoginEmail(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/></div>
-          <div className="ig"><label className="il">Contraseña</label><input className="inf" type="password" placeholder="••••••••" value={loginPass} onChange={e=>setLoginPass(e.target.value)} onKeyDown={e=>e.key==="Enter"&&handleLogin()}/></div>
-          {loginErr&&<p style={{color:"var(--red)",fontSize:12,textAlign:"center"}}>{loginErr}</p>}
-          <button className="btn btn-gold" onClick={handleLogin} disabled={loading}>{loading?"Entrando...":"Entrar"}</button>
-          <button className="btn btn-outline" onClick={()=>setShowReg(true)}>Crear cuenta nueva</button>
-        </div>
-      ):(
-        <div className="login-form">
-          <div className="ig"><label className="il">Nombre</label><input className="inf" placeholder="Tu nombre o apodo" value={regName} onChange={e=>setRegName(e.target.value)}/></div>
-          <div className="ig"><label className="il">Email</label><input className="inf" type="email" placeholder="tu@email.com" value={regEmail} onChange={e=>setRegEmail(e.target.value)}/></div>
-          <div className="ig"><label className="il">Contraseña</label><input className="inf" type="password" placeholder="••••••••" value={regPass} onChange={e=>setRegPass(e.target.value)}/></div>
-          <div className="ig"><label className="il">Avatar</label><div className="avatar-grid">{AVATARS.map(a=><div key={a} className={"av-opt"+(regAvatar===a?" sel":"")} onClick={()=>setRegAvatar(a)}>{a}</div>)}</div></div>
-          <button className="btn btn-gold" onClick={handleRegister} disabled={loading}>{loading?"Creando...":"Crear cuenta"}</button>
-          <button className="btn btn-outline" onClick={()=>setShowReg(false)}>← Regresar</button>
-        </div>
-      )}
-    </div>
-  );
-
+const renderApp=()=>{
   const lb=getLeaderboard();
-  const myRank=lb.findIndex(l=>l.uid===profile.id);
-  const myStats=lb.find(l=>l.uid===profile.id);
-  const filteredMatches=matches.filter(m=>m.phase===phase);
-
-  return(
-    <div>
-      {toast&&<Toast msg={toast.msg} type={toast.type} onDone={()=>setToast(null)}/>}
-      <div className="header">
-        <div>
-          <div className="logo">WC · Quiniela</div>
-          {currentGroup&&<div style={{fontSize:10,color:"var(--text3)",marginTop:-2}}>📌 {currentGroup.name}</div>}
-        </div>
-        <div style={{display:"flex",alignItems:"center",gap:10}}>
-          {currentGroup&&myRank>=0&&(
-            <button onClick={()=>setPage("table")} style={{background:myRank===0?"linear-gradient(135deg,#FFD700,#FFA500)":myRank===1?"linear-gradient(135deg,#C0C0C0,#A0A0A0)":myRank===2?"linear-gradient(135deg,#CD7F32,#A0622A)":"rgba(255,255,255,.08)",border:"none",borderRadius:10,padding:"5px 10px",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",lineHeight:1,gap:1}}>
-              <span style={{fontFamily:"Bebas Neue,cursive",fontSize:17,letterSpacing:1,color:myRank<3?"#000":"var(--gold)"}}>{"#"+(myRank+1)}</span>
-              <span style={{fontSize:9,fontWeight:700,color:myRank<3?"rgba(0,0,0,.6)":"var(--text3)",textTransform:"uppercase"}}>{(myStats?myStats.pts:0)+" pts"}</span>
-            </button>
-          )}
-          {isAdmin&&<span className="badge-admin">ADMIN</span>}
-          <button onClick={()=>{setEditName(profile.name||"");setEditAvatar(profile.avatar||"⚽");setModal("profile");}} style={{width:36,height:36,borderRadius:"50%",background:"linear-gradient(135deg,var(--gold),var(--gold2))",border:"none",cursor:"pointer",fontSize:18,display:"flex",alignItems:"center",justifyContent:"center"}}>
-            {profile.avatar||"⚽"}
-          </button>
-        </div>
+  const myR=lb.findIndex(l=>l.uid===profile.id);
+  const myS=lb[myR];
+  $("app").innerHTML=`
+  <div class="app">
+    <div class="header">
+      <div>
+        <div class="logo">WC · Quiniela</div>
+        ${curGroup?`<div style="font-size:10px;color:var(--text3);margin-top:-2px">📌 ${h(curGroup.name)}</div>`:""}
       </div>
-
-      <div className="main">
-        {page==="groups"&&(
-          <div>
-            <div className="section-title">Mis Grupos</div>
-            <div className="section-sub">Entra a un grupo para predecir</div>
-            {groups.map(g=>(
-              <div key={g.id} className={"group-card"+(currentGroup&&currentGroup.id===g.id?" active":"")} onClick={()=>handleSelectGroup(g)}>
-                <div style={{fontFamily:"Bebas Neue,cursive",fontSize:24,color:"var(--gold)",letterSpacing:2}}>🏆 {g.name}</div>
-                <div style={{fontSize:12,color:"var(--text3)",marginTop:4}}>Toca para entrar</div>
-                {g.admin_id===profile.id&&(
-                  <div className="invite-box" onClick={e=>e.stopPropagation()}>
-                    <div style={{fontSize:10,color:"var(--text3)",letterSpacing:1,textTransform:"uppercase",marginBottom:4}}>🔗 Código de invitación</div>
-                    <div className="invite-code">{g.invite_code}</div>
-                    <div style={{fontSize:11,color:"var(--text3)",marginTop:4}}>Comparte este código con tus amigos</div>
-                    <button className="btn btn-sm btn-outline" style={{marginTop:8}} onClick={()=>{if(navigator.clipboard)navigator.clipboard.writeText(g.invite_code);showToast("Código copiado 📋");}}>Copiar código</button>
-                  </div>
-                )}
-              </div>
-            ))}
-            {groups.length===0&&<div className="empty"><div style={{fontSize:44,marginBottom:10}}>👥</div><div style={{fontSize:14}}>Crea o únete a un grupo</div></div>}
-            <div style={{display:"flex",gap:8,marginTop:8}}>
-              <button className="btn btn-gold" style={{flex:1}} onClick={()=>setModal("newGroup")}>+ Crear grupo</button>
-              <button className="btn btn-outline" style={{flex:1}} onClick={()=>setModal("joinGroup")}>🔗 Unirme</button>
-            </div>
-          </div>
-        )}
-
-        {page==="matches"&&(
-          <div>
-            <div className="section-title">Partidos</div>
-            <div className="section-sub">{filteredMatches.filter(m=>preds[profile.id]&&preds[profile.id][m.id]).length+" predicciones en esta fase"}</div>
-            <div className="tabs">{PHASES.map(ph=><button key={ph} className={"tab-btn"+(phase===ph?" active":"")} onClick={()=>setPhase(ph)}>{ph==="Fase de Grupos"?"Grupos":ph==="Dieciseisavos de Final"?"16avos":ph}</button>)}</div>
-            {filteredMatches.map(m=><MatchCard key={m.id} match={m} userPred={preds[profile.id]&&preds[profile.id][m.id]} onPredict={handlePredict}/>)}
-          </div>
-        )}
-
-        {page==="table"&&(
-          <div>
-            <div className="section-title">Tabla General</div>
-            <div className="section-sub">{(currentGroup?currentGroup.name:"")+" · "+lb.length+" jugadores"}</div>
-            {currentGroup?(
-              <div>
-                {myStats&&(
-                  <div style={{background:"linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,165,0,.06))",border:"2px solid rgba(255,215,0,.4)",borderRadius:20,padding:"18px 16px",marginBottom:18}}>
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
-                      <div style={{display:"flex",alignItems:"center",gap:10}}>
-                        <div style={{background:myRank===0?"linear-gradient(135deg,#FFD700,#FFA500)":myRank===1?"linear-gradient(135deg,#C0C0C0,#A8A8A8)":myRank===2?"linear-gradient(135deg,#CD7F32,#A0622A)":"rgba(255,255,255,.1)",borderRadius:12,padding:"6px 14px",fontFamily:"Bebas Neue,cursive",fontSize:28,letterSpacing:2,color:myRank<3?"#000":"var(--gold)",lineHeight:1}}>
-                          {"#"+(myRank+1)}
-                        </div>
-                        <div>
-                          <div style={{fontFamily:"Barlow Condensed,sans-serif",fontWeight:700,fontSize:10,letterSpacing:2,color:"var(--text3)",textTransform:"uppercase"}}>TU POSICIÓN</div>
-                          <div style={{fontWeight:700,fontSize:14}}>{myRank===0?"🥇 Líder del grupo":myRank===1?"🥈 Segundo lugar":myRank===2?"🥉 Tercer lugar":(lb.length-myRank-1)+" personas detrás"}</div>
-                        </div>
-                      </div>
-                      <div style={{textAlign:"right"}}>
-                        <div style={{fontFamily:"Bebas Neue,cursive",fontSize:42,color:"var(--gold)",lineHeight:1}}>{myStats.pts}</div>
-                        <div style={{fontSize:9,color:"var(--text3)",fontWeight:700,letterSpacing:1,textTransform:"uppercase"}}>puntos</div>
-                      </div>
-                    </div>
-                    {lb.length>1&&(
-                      <div style={{display:"flex",gap:8,marginBottom:12}}>
-                        {myRank>0&&<div style={{flex:1,background:"rgba(230,57,70,.1)",border:"1px solid rgba(230,57,70,.2)",borderRadius:10,padding:"7px 10px",textAlign:"center"}}><div style={{fontSize:9,color:"var(--text3)",fontWeight:700,textTransform:"uppercase"}}>{"⬆ Al #"+myRank}</div><div style={{fontFamily:"Bebas Neue,cursive",fontSize:18,color:"var(--red)"}}>{"-"+(lb[myRank-1].pts-myStats.pts)+" pts"}</div></div>}
-                        {myRank<lb.length-1&&<div style={{flex:1,background:"rgba(16,185,129,.1)",border:"1px solid rgba(16,185,129,.2)",borderRadius:10,padding:"7px 10px",textAlign:"center"}}><div style={{fontSize:9,color:"var(--text3)",fontWeight:700,textTransform:"uppercase"}}>{"⬇ Al #"+(myRank+2)}</div><div style={{fontFamily:"Bebas Neue,cursive",fontSize:18,color:"var(--green)"}}>{"+"+( myStats.pts-lb[myRank+1].pts)+" pts"}</div></div>}
-                      </div>
-                    )}
-                    <div style={{display:"flex",gap:8}}>
-                      <div className="stat-chip"><div className="stat-chip-val">{myStats.correct}</div><div className="stat-chip-lbl">Aciertos</div></div>
-                      <div className="stat-chip"><div className="stat-chip-val">{myStats.total}</div><div className="stat-chip-lbl">Jugados</div></div>
-                      <div className="stat-chip"><div className="stat-chip-val">{myStats.total>0?Math.round(myStats.correct/myStats.total*100):0+"%"}</div><div className="stat-chip-lbl">Efecto.</div></div>
-                    </div>
-                  </div>
-                )}
-                <div style={{display:"flex",gap:8,marginBottom:18}}>
-                  {[{r:0,icon:"🥇",color:"#FFD700"},{r:1,icon:"🥈",color:"#C0C0C0"},{r:2,icon:"🥉",color:"#CD7F32"}].map(function(x){
-                    const item=lb[x.r];
-                    return(<div key={x.r} style={{flex:1,background:"rgba(255,255,255,.03)",border:"1px solid "+x.color+"40",borderRadius:12,padding:"10px 6px",textAlign:"center"}}>
-                      <div style={{fontSize:20}}>{x.icon}</div>
-                      {item?(<div><div style={{fontSize:22}}>{item.prof&&item.prof.avatar||"⚽"}</div><div style={{fontSize:12,fontWeight:700,color:"var(--text2)"}}>{item.prof&&item.prof.name||"..."}</div><div style={{fontFamily:"Bebas Neue,cursive",fontSize:18,color:x.color}}>{item.pts+" pts"}</div></div>):<div style={{fontSize:12,color:"var(--text3)",marginTop:6}}>—</div>}
-                    </div>);
-                  })}
-                </div>
-                {lb.map((item,i)=>{
-                  const isMe=item.uid===profile.id;
-                  return(
-                    <div key={item.uid} className={"lb-item"+(i===0?" r1":i===1?" r2":i===2?" r3":"")} style={isMe?{outline:"2px solid rgba(255,215,0,.6)",outlineOffset:2}:{}}>
-                      <div style={{fontFamily:"Bebas Neue,cursive",fontSize:22,minWidth:32,textAlign:"center",color:isMe?"var(--gold)":"var(--text3)"}}>
-                        {i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1)}
-                      </div>
-                      <div style={{fontSize:22}}>{item.prof&&item.prof.avatar||"⚽"}</div>
-                      <div style={{flex:1}}>
-                        <div style={{fontWeight:700,fontSize:14}}>{item.prof&&item.prof.name||"Jugador"}{isMe&&<span style={{fontSize:10,fontWeight:700,color:"var(--gold)",marginLeft:6}}>← TÚ</span>}</div>
-                        <div style={{fontSize:11,color:"var(--text3)"}}>{item.correct+" aciertos · "+item.total+" jugados"}</div>
-                      </div>
-                      <div className="lb-pts">{item.pts}<span> pts</span></div>
-                    </div>
-                  );
-                })}
-                {lb.length===0&&<div className="empty"><div style={{fontSize:44,marginBottom:10}}>🏆</div><div style={{fontSize:14}}>Aún sin predicciones</div></div>}
-              </div>
-            ):<div className="empty"><div style={{fontSize:44,marginBottom:10}}>👥</div><div style={{fontSize:14}}>Selecciona un grupo primero</div></div>}
-          </div>
-        )}
-
-        {page==="admin"&&isAdmin&&(
-          <div>
-            <div className="section-title">Panel Admin</div>
-            <div className="section-sub">Ingresa resultados</div>
-            <div className="tabs">{PHASES.map(ph=><button key={ph} className={"tab-btn"+(phase===ph?" active":"")} onClick={()=>setPhase(ph)}>{ph==="Fase de Grupos"?"Grupos":ph==="Dieciseisavos de Final"?"16avos":ph}</button>)}</div>
-            {matches.filter(m=>m.phase===phase).map(m=>(
-              <div key={m.id} style={{background:"var(--card)",border:"1px solid var(--border)",borderRadius:14,padding:14,marginBottom:10}}>
-                <div style={{fontFamily:"Barlow Condensed,sans-serif",fontWeight:700,fontSize:11,letterSpacing:1,color:"var(--text3)",marginBottom:6}}>{(m.match_group?"Grupo "+m.match_group:m.phase)+" · "+fmtDate(m.match_date)+" "+fmtTime(m.match_date,m.match_time)}</div>
-                <div style={{fontSize:14,fontWeight:700,marginBottom:10}}>{(FLAGS[m.home]||"")+" "+m.home+" vs "+(FLAGS[m.away]||"")+" "+m.away}</div>
-                {!m.match_group&&(
-                  <div style={{display:"flex",gap:6,marginBottom:10}}>
-                    <input style={{flex:1,background:"rgba(255,255,255,.06)",border:"1px solid var(--border)",borderRadius:8,padding:"7px 10px",color:"var(--text)",fontSize:13,outline:"none"}} placeholder="Local" defaultValue={m.home} onBlur={async e=>{if(e.target.value!==m.home){await req(SUPA_URL+"/rest/v1/matches?id=eq."+m.id,session.access_token,{method:"PATCH",body:JSON.stringify({home:e.target.value})});await loadMatches(session.access_token);}}}/>
-                    <input style={{flex:1,background:"rgba(255,255,255,.06)",border:"1px solid var(--border)",borderRadius:8,padding:"7px 10px",color:"var(--text)",fontSize:13,outline:"none"}} placeholder="Visitante" defaultValue={m.away} onBlur={async e=>{if(e.target.value!==m.away){await req(SUPA_URL+"/rest/v1/matches?id=eq."+m.id,session.access_token,{method:"PATCH",body:JSON.stringify({away:e.target.value})});await loadMatches(session.access_token);}}}/>
-                  </div>
-                )}
-                {m.home_score!=null?(
-                  <div style={{display:"flex",alignItems:"center",gap:8}}>
-                    <span className="pts-badge pts3b">{"✓ "+m.home_score+" – "+m.away_score}</span>
-                    <button className="btn btn-xs btn-outline" onClick={async()=>{await req(SUPA_URL+"/rest/v1/matches?id=eq."+m.id,session.access_token,{method:"PATCH",body:JSON.stringify({home_score:null,away_score:null})});await loadMatches(session.access_token);}}>Editar</button>
-                  </div>
-                ):(
-                  <div style={{display:"flex",alignItems:"center",gap:8}}>
-                    <input style={{width:50,padding:"8px 6px",textAlign:"center",background:"rgba(255,255,255,.08)",border:"1px solid var(--border)",borderRadius:8,color:"var(--text)",fontSize:20,fontWeight:700,outline:"none"}} type="number" min="0" max="20" placeholder="0" value={adminScores[m.id]&&adminScores[m.id].home!=null?adminScores[m.id].home:""} onChange={e=>setAdminScores(p=>{const n=Object.assign({},p);n[m.id]=Object.assign({},n[m.id]||{},{home:e.target.value});return n;})}/>
-                    <span style={{fontSize:18,color:"var(--text3)",fontWeight:700}}>–</span>
-                    <input style={{width:50,padding:"8px 6px",textAlign:"center",background:"rgba(255,255,255,.08)",border:"1px solid var(--border)",borderRadius:8,color:"var(--text)",fontSize:20,fontWeight:700,outline:"none"}} type="number" min="0" max="20" placeholder="0" value={adminScores[m.id]&&adminScores[m.id].away!=null?adminScores[m.id].away:""} onChange={e=>setAdminScores(p=>{const n=Object.assign({},p);n[m.id]=Object.assign({},n[m.id]||{},{away:e.target.value});return n;})}/>
-                    <button className="btn btn-gold btn-xs" onClick={()=>handleSetResult(m.id)}>Guardar</button>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+      <div style="display:flex;align-items:center;gap:10px">
+        ${curGroup&&myR>=0?`<button onclick="page='table';renderApp()" style="background:${myR===0?"linear-gradient(135deg,#FFD700,#FFA500)":myR===1?"linear-gradient(135deg,#C0C0C0,#A0A0A0)":myR===2?"linear-gradient(135deg,#CD7F32,#A0622A)":"rgba(255,255,255,.08)"};border:none;border-radius:10px;padding:5px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1;gap:1px"><span style="font-family:'Bebas Neue',cursive;font-size:17px;color:${myR<3?"#000":"var(--gold)"}">#${myR+1}</span><span style="font-size:9px;font-weight:700;color:${myR<3?"rgba(0,0,0,.6)":"var(--text3)"};text-transform:uppercase">${myS?myS.pts:0} pts</span></button>`:""}
+        ${isAdmin()?`<span class="ptb pt3">ADMIN</span>`:""}
+        <button onclick="openProfile()" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));border:none;cursor:pointer;font-size:18px">${profile.avatar||"⚽"}</button>
       </div>
-
-      <div className="nav">
-        <button className={"nav-btn"+(page==="groups"?" active":"")} onClick={()=>setPage("groups")}><span className="nav-icon">👥</span>Grupos</button>
-        <button className={"nav-btn"+(page==="matches"?" active":"")} onClick={()=>{if(!currentGroup){showToast("Selecciona un grupo","error");return;}setPage("matches");}}><span className="nav-icon">⚽</span>Partidos</button>
-        <button className={"nav-btn"+(page==="table"?" active":"")} onClick={()=>setPage("table")}><span className="nav-icon">🏆</span>Tabla</button>
-        {isAdmin&&<button className={"nav-btn"+(page==="admin"?" active":"")} onClick={()=>setPage("admin")}><span className="nav-icon">⚙️</span>Admin</button>}
-        <button className="nav-btn" onClick={handleLogout}><span className="nav-icon">🚪</span>Salir</button>
-      </div>
-
-      {modal==="profile"&&(
-        <div className="modal-overlay" onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
-          <div className="modal">
-            <div className="modal-title">Mi Perfil</div>
-            <div style={{fontSize:52,textAlign:"center",marginBottom:8}}>{editAvatar||profile.avatar}</div>
-            <div className="ig" style={{marginBottom:14}}><label className="il">Avatar</label><div className="avatar-grid">{AVATARS.map(a=><div key={a} className={"av-opt"+((editAvatar||profile.avatar)===a?" sel":"")} onClick={()=>setEditAvatar(a)}>{a}</div>)}</div></div>
-            <div className="ig" style={{marginBottom:14}}><label className="il">Nombre visible</label><input className="inf" value={editName} onChange={e=>setEditName(e.target.value)}/></div>
-            <p style={{fontSize:11,color:"var(--text3)",marginBottom:14}}>📧 {session.user.email}</p>
-            <div style={{display:"flex",gap:8}}><button className="btn btn-gold" style={{flex:1}} onClick={handleSaveProfile}>Guardar</button><button className="btn btn-outline" onClick={()=>setModal(null)}>Cancelar</button></div>
-          </div>
-        </div>
-      )}
-      {modal==="newGroup"&&(
-        <div className="modal-overlay" onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
-          <div className="modal">
-            <div className="modal-title">Crear Grupo</div>
-            <div className="ig" style={{marginBottom:14}}><label className="il">Nombre del grupo</label><input className="inf" placeholder="Ej: Familia, Trabajo, Amigos..." value={newGName} onChange={e=>setNewGName(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")handleCreateGroup();}}/></div>
-            <p style={{fontSize:12,color:"var(--text3)",marginBottom:14}}>Se genera un código automático para invitar amigos.</p>
-            <div style={{display:"flex",gap:8}}><button className="btn btn-gold" style={{flex:1}} onClick={handleCreateGroup} disabled={loading||!newGName.trim()}>{loading?"Creando...":"Crear"}</button><button className="btn btn-outline" onClick={()=>setModal(null)}>Cancelar</button></div>
-          </div>
-        </div>
-      )}
-      {modal==="joinGroup"&&(
-        <div className="modal-overlay" onClick={e=>{if(e.target===e.currentTarget)setModal(null);}}>
-          <div className="modal">
-            <div className="modal-title">Unirme a Grupo</div>
-            <div className="ig" style={{marginBottom:14}}><label className="il">Código de invitación</label><input className="inf" placeholder="Ej: a1b2c3d4" value={joinCode} onChange={e=>setJoinCode(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")handleJoin();}} style={{letterSpacing:3,textTransform:"uppercase",fontFamily:"Bebas Neue,cursive",fontSize:22}}/></div>
-            <p style={{fontSize:12,color:"var(--text3)",marginBottom:14}}>Pídele el código al admin del grupo.</p>
-            <div style={{display:"flex",gap:8}}><button className="btn btn-gold" style={{flex:1}} onClick={handleJoin} disabled={loading||!joinCode.trim()}>{loading?"Buscando...":"Unirme"}</button><button className="btn btn-outline" onClick={()=>setModal(null)}>Cancelar</button></div>
-          </div>
-        </div>
-      )}
     </div>
-  );
-}
+    <div class="main" id="main"></div>
+    <div class="nav">
+      <button class="nb ${page==="groups"?"on":""}" onclick="page='groups';renderApp()"><span class="ni">👥</span>Grupos</button>
+      <button class="nb ${page==="matches"?"on":""}" onclick="if(!curGroup){showToast('Selecciona un grupo','error');return;}page='matches';renderApp()"><span class="ni">⚽</span>Partidos</button>
+      <button class="nb ${page==="table"?"on":""}" onclick="page='table';renderApp()"><span class="ni">🏆</span>Tabla</button>
+      ${isAdmin()?`<button class="nb ${page==="admin"?"on":""}" onclick="page='admin';renderApp()"><span class="ni">⚙️</span>Admin</button>`:""}
+      <button class="nb" onclick="doLogout()"><span class="ni">🚪</span>Salir</button>
+    </div>
+    <div id="modal-area"></div>
+  </div>`;
+  if(page==="groups")renderGroups();
+  else if(page==="matches")renderMatches();
+  else if(page==="table")renderTable(lb,myR,myS);
+  else if(page==="admin")renderAdmin();
+  if(modal)renderModal();
+};
 
-ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+const renderGroups=()=>{
+  const m=$("main");
+  m.innerHTML=`<div class="st">Mis Grupos</div><div class="ss">Entra a un grupo para predecir</div>
+  ${groups.map(g=>`
+  <div class="gc ${curGroup&&curGroup.id===g.id?"on":""}" onclick="selectGroup('${g.id}')">
+    <div style="font-family:'Bebas Neue',cursive;font-size:24px;color:var(--gold);letter-spacing:2px">🏆 ${h(g.name)}</div>
+    <div style="font-size:12px;color:var(--text3);margin-top:4px">Toca para entrar</div>
+    ${g.admin_id===profile.id?`<div class="ib" onclick="event.stopPropagation()">
+      <div style="font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">🔗 Código de invitación</div>
+      <div class="ic">${g.invite_code||""}</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:4px">Comparte este código con tus amigos</div>
+      <button class="btn bo bsm" style="margin-top:8px" onclick="copyCode('${g.invite_code||""}')">Copiar código</button>
+    </div>`:""}
+  </div>`).join("")}
+  ${groups.length===0?`<div class="empty"><div style="font-size:44px;margin-bottom:10px">👥</div><div style="font-size:14px">Crea o únete a un grupo</div></div>`:""}
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <button class="btn bg" style="flex:1" onclick="modal='newGroup';renderApp()">+ Crear grupo</button>
+    <button class="btn bo" style="flex:1" onclick="modal='joinGroup';renderApp()">🔗 Unirme</button>
+  </div>`;
+};
+
+const copyCode=code=>{if(navigator.clipboard)navigator.clipboard.writeText(code);showToast("Código copiado 📋");};
+
+const selectGroup=async id=>{
+  curGroup=groups.find(g=>g.id===id);
+  page="matches";
+  $("main").innerHTML=`<div class="load"><div class="spin">⚽</div>Cargando...</div>`;
+  await loadGroupData(id);
+  renderApp();
+};
+
+const renderMatches=()=>{
+  const m=$("main");
+  const fm=matches.filter(mt=>mt.phase===phase);
+  const myPreds=preds[profile.id]||{};
+  m.innerHTML=`<div class="st">Partidos</div>
+  <div class="ss">${fm.filter(mt=>myPreds[mt.id]).length} predicciones en esta fase</div>
+  <div class="tabs">${PHASES.map(ph=>`<button class="tb ${phase===ph?"on":""}" onclick="phase='${ph}';renderApp()">${ph==="Fase de Grupos"?"Grupos":ph==="Dieciseisavos de Final"?"16avos":ph}</button>`).join("")}</div>
+  <div id="mlist">${fm.map(mt=>matchCard(mt,myPreds[mt.id])).join("")}</div>`;
+};
+
+const matchCard=(m,pred)=>{
+  const started=isStarted(m);
+  const p=pred&&m.home_score!=null?pts(pred,m):null;
+  const cls="mc"+(pred?" pred":"")+(started&&m.home_score==null?" lock":"")+(p===3?" p3":p===1?" p1":"");
+  return`<div class="${cls}">
+    <div class="mph">
+      <span>${m.match_group?"Grupo "+m.match_group:m.phase}</span>
+      <span style="font-size:10px;color:var(--text3)">${fmtDate(m.match_date)} ${fmtTime(m.match_date,m.match_time)}</span>
+    </div>
+    <div class="mtt">
+      <div class="ts"><span class="tf">${FL[m.home]||"🏳️"}</span><span class="tn">${h(m.home)}</span></div>
+      ${m.home_score!=null?`<div class="mr">${m.home_score} – ${m.away_score}</div>`:`<span class="mvs">VS</span>`}
+      <div class="ts"><span class="tf">${FL[m.away]||"🏳️"}</span><span class="tn">${h(m.away)}</span></div>
+    </div>
+    ${p!=null?`<div style="margin-bottom:8px"><span class="ptb ${p===3?"pt3":p===1?"pt1":"pt0"}">${p===3?"🏆 +3 PTS":p===1?"✅ +1 PT":"❌ 0 PTS"}</span>${pred?`<span style="font-size:11px;color:var(--text3);margin-left:6px">${FL[pred.winner]||""} ${h(pred.winner)} · ${pred.over_under==="over"?"Over 2.5":"Under 2.5"}</span>`:""}
+    </div>`:""}
+    ${pred&&m.home_score==null?`<div style="margin-bottom:8px;font-size:11px;color:var(--text3)">Tu pick: <strong style="color:var(--text2)">${FL[pred.winner]||""} ${h(pred.winner)}</strong>${pred.over_under?` · <strong style="color:var(--blue)">${pred.over_under==="over"?"Over 2.5":"Under 2.5"}</strong>`:""}</div>`:""}
+    ${started?(!pred&&!m.home_score?`<span class="lkb">🔒 Cerrado</span>`:""):`
+    <div class="pr">
+      ${[m.home,"Empate",m.away].map(opt=>`<button class="pb ${pred&&pred.winner===opt?"on":""}" onclick="doPred(${m.id},'winner','${opt.replace(/'/g,"\\'")}')">
+        <span class="pl">${opt==="Empate"?"Empate":"Ganador"}</span>
+        <span class="pv">${FL[opt]||opt}</span>
+      </button>`).join("")}
+    </div>
+    <div class="our">
+      <button class="ob ${pred&&pred.over_under==="over"?"on":""}" onclick="doPred(${m.id},'over_under','over')">⬆ Over 2.5</button>
+      <button class="ob ${pred&&pred.over_under==="under"?"on":""}" onclick="doPred(${m.id},'over_under','under')">⬇ Under 2.5</button>
+    </div>`}
+  </div>`;
+};
+
+const doPred=async(matchId,field,value)=>{
+  const m=matches.find(x=>x.id===matchId);
+  if(!m||isStarted(m))return;
+  const uid=profile.id;
+  const existing=(preds[uid]&&preds[uid][matchId])||{};
+  const np=Object.assign({},existing,{user_id:uid,match_id:matchId,updated_at:new Date().toISOString()});
+  np[field]=value;
+  if(!preds[uid])preds[uid]={};
+  preds[uid][matchId]=np;
+  // Re-render just the match card
+  renderApp();
+  await api(S+"/rest/v1/predictions?on_conflict=user_id,match_id",tok(),{method:"POST",headers:{"Prefer":"return=representation,resolution=merge-duplicates"},body:JSON.stringify(np)});
+  showToast("Guardado ✓");
+};
+
+const getLeaderboard=()=>members.map(uid=>{
+  const up=preds[uid]||{};let p=0,c=0,tot=0;
+  matches.forEach(m=>{if(m.home_score!=null&&up[m.id]){const pt=pts(up[m.id],m);if(pt!=null){p+=pt;tot++;if(pt>0)c++;}}});
+  return{uid,pts:p,correct:c,total:tot,prof:mProfs[uid]};
+}).sort((a,b)=>b.pts-a.pts);
+
+const renderTable=(lb,myR,myS)=>{
+  const m=$("main");
+  if(!curGroup){m.innerHTML=`<div class="st">Tabla General</div><div class="empty"><div style="font-size:44px;margin-bottom:10px">👥</div><div style="font-size:14px">Selecciona un grupo primero</div></div>`;return;}
+  m.innerHTML=`<div class="st">Tabla General</div>
+  <div class="ss">${h(curGroup.name)} · ${lb.length} jugadores</div>
+  ${myS?`<div style="background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,165,0,.06));border:2px solid rgba(255,215,0,.4);border-radius:20px;padding:18px 16px;margin-bottom:18px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="background:${myR===0?"linear-gradient(135deg,#FFD700,#FFA500)":myR===1?"linear-gradient(135deg,#C0C0C0,#A8A8A8)":myR===2?"linear-gradient(135deg,#CD7F32,#A0622A)":"rgba(255,255,255,.1)"};border-radius:12px;padding:6px 14px;font-family:'Bebas Neue',cursive;font-size:28px;letter-spacing:2px;color:${myR<3?"#000":"var(--gold)"};line-height:1">#${myR+1}</div>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;color:var(--text3);text-transform:uppercase">TU POSICIÓN</div>
+          <div style="font-weight:700;font-size:14px">${myR===0?"🥇 Líder del grupo":myR===1?"🥈 Segundo lugar":myR===2?"🥉 Tercer lugar":(lb.length-myR-1)+" personas detrás"}</div>
+        </div>
+      </div>
+      <div style="text-align:right"><div style="font-family:'Bebas Neue',cursive;font-size:42px;color:var(--gold);line-height:1">${myS.pts}</div><div style="font-size:9px;color:var(--text3);font-weight:700;letter-spacing:1px;text-transform:uppercase">puntos</div></div>
+    </div>
+    ${lb.length>1?`<div style="display:flex;gap:8px;margin-bottom:12px">
+      ${myR>0?`<div style="flex:1;background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.2);border-radius:10px;padding:7px 10px;text-align:center"><div style="font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase">⬆ Al #${myR}</div><div style="font-family:'Bebas Neue',cursive;font-size:18px;color:var(--red)">-${lb[myR-1].pts-myS.pts} pts</div></div>`:""}
+      ${myR<lb.length-1?`<div style="flex:1;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:7px 10px;text-align:center"><div style="font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase">⬇ Al #${myR+2}</div><div style="font-family:'Bebas Neue',cursive;font-size:18px;color:var(--green)">+${myS.pts-lb[myR+1].pts} pts</div></div>`:""}
+    </div>`:""}
+    <div style="display:flex;gap:8px">
+      <div class="sc"><div class="sv">${myS.correct}</div><div class="sl">Aciertos</div></div>
+      <div class="sc"><div class="sv">${myS.total}</div><div class="sl">Jugados</div></div>
+      <div class="sc"><div class="sv">${myS.total>0?Math.round(myS.correct/myS.total*100):0}%</div><div class="sl">Efecto.</div></div>
+    </div>
+  </div>`:""}
+  <div style="display:flex;gap:8px;margin-bottom:18px">
+    ${[{r:0,i:"🥇",c:"#FFD700"},{r:1,i:"🥈",c:"#C0C0C0"},{r:2,i:"🥉",c:"#CD7F32"}].map(x=>{const item=lb[x.r];return`<div style="flex:1;background:rgba(255,255,255,.03);border:1px solid ${x.c}40;border-radius:12px;padding:10px 6px;text-align:center"><div style="font-size:20px">${x.i}</div>${item?`<div style="font-size:22px">${item.prof&&item.prof.avatar||"⚽"}</div><div style="font-size:12px;font-weight:700;color:var(--text2)">${h(item.prof&&item.prof.name||"...")}</div><div style="font-family:'Bebas Neue',cursive;font-size:18px;color:${x.c}">${item.pts} pts</div>`:`<div style="font-size:12px;color:var(--text3);margin-top:6px">—</div>`}</div>`;}).join("")}
+  </div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:10px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;margin-bottom:10px">Clasificación completa</div>
+  ${lb.map((item,i)=>{const isMe=item.uid===profile.id;return`<div class="li ${i===0?"r1":i===1?"r2":i===2?"r3":""}" style="${isMe?"outline:2px solid rgba(255,215,0,.6);outline-offset:2px":""}">
+    <div style="font-family:'Bebas Neue',cursive;font-size:22px;min-width:32px;text-align:center;color:${isMe?"var(--gold)":"var(--text3)"}">${i===0?"🥇":i===1?"🥈":i===2?"🥉":i+1}</div>
+    <div style="font-size:22px">${item.prof&&item.prof.avatar||"⚽"}</div>
+    <div style="flex:1"><div style="font-weight:700;font-size:14px">${h(item.prof&&item.prof.name||"Jugador")}${isMe?`<span style="font-size:10px;font-weight:700;color:var(--gold);margin-left:6px">← TÚ</span>`:""}</div><div style="font-size:11px;color:var(--text3)">${item.correct} aciertos · ${item.total} jugados</div></div>
+    <div class="lpts">${item.pts}<span> pts</span></div>
+  </div>`;}).join("")}
+  ${lb.length===0?`<div class="empty"><div style="font-size:44px;margin-bottom:10px">🏆</div><div style="font-size:14px">Aún sin predicciones</div></div>`:""}`;
+};
+
+const renderAdmin=()=>{
+  const m=$("main");
+  const fm=matches.filter(mt=>mt.phase===phase);
+  m.innerHTML=`<div class="st">Panel Admin</div><div class="ss">Ingresa resultados</div>
+  <div class="tabs">${PHASES.map(ph=>`<button class="tb ${phase===ph?"on":""}" onclick="phase='${ph}';renderApp()">${ph==="Fase de Grupos"?"Grupos":ph==="Dieciseisavos de Final"?"16avos":ph}</button>`).join("")}</div>
+  ${fm.map(mt=>`<div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:var(--text3);margin-bottom:6px">${mt.match_group?"Grupo "+mt.match_group:mt.phase} · ${fmtDate(mt.match_date)} ${fmtTime(mt.match_date,mt.match_time)}</div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:10px">${FL[mt.home]||""} ${h(mt.home)} vs ${FL[mt.away]||""} ${h(mt.away)}</div>
+    ${!mt.match_group?`<div style="display:flex;gap:6px;margin-bottom:10px">
+      <input style="flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:13px;outline:none" placeholder="Local" value="${h(mt.home)}" onblur="updateTeam(${mt.id},'home',this.value)"/>
+      <input style="flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-size:13px;outline:none" placeholder="Visitante" value="${h(mt.away)}" onblur="updateTeam(${mt.id},'away',this.value)"/>
+    </div>`:""}
+    ${mt.home_score!=null?`<div style="display:flex;align-items:center;gap:8px"><span class="ptb pt3">✓ ${mt.home_score} – ${mt.away_score}</span><button class="btn bo bxs" onclick="clearResult(${mt.id})">Editar</button></div>`:`
+    <div style="display:flex;align-items:center;gap:8px">
+      <input id="hs${mt.id}" type="number" min="0" max="20" placeholder="0" style="width:50px;padding:8px 6px;text-align:center;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:20px;font-weight:700;outline:none"/>
+      <span style="font-size:18px;color:var(--text3);font-weight:700">–</span>
+      <input id="as${mt.id}" type="number" min="0" max="20" placeholder="0" style="width:50px;padding:8px 6px;text-align:center;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:20px;font-weight:700;outline:none"/>
+      <button class="btn bg bxs" onclick="saveResult(${mt.id})">Guardar</button>
+    </div>`}
+  </div>`).join("")}`;
+};
+
+const updateTeam=async(id,field,val)=>{
+  const body={};body[field]=val;
+  await api(S+"/rest/v1/matches?id=eq."+id,tok(),{method:"PATCH",body:JSON.stringify(body)});
+  const idx=matches.findIndex(m=>m.id===id);
+  if(idx>=0)matches[idx][field]=val;
+  showToast("Actualizado ✓");
+};
+
+const saveResult=async(id)=>{
+  const hs=$("hs"+id),as=$("as"+id);
+  if(!hs||!as||hs.value===""||as.value==="")return;
+  await api(S+"/rest/v1/matches?id=eq."+id,tok(),{method:"PATCH",body:JSON.stringify({home_score:parseInt(hs.value),away_score:parseInt(as.value),started:true})});
+  const idx=matches.findIndex(m=>m.id===id);
+  if(idx>=0){matches[idx].home_score=parseInt(hs.value);matches[idx].away_score=parseInt(as.value);matches[idx].started=true;}
+  showToast("Resultado guardado ✓");
+  renderApp();
+};
+
+const clearResult=async(id)=>{
+  await api(S+"/rest/v1/matches?id=eq."+id,tok(),{method:"PATCH",body:JSON.stringify({home_score:null,away_score:null})});
+  const idx=matches.findIndex(m=>m.id===id);
+  if(idx>=0){matches[idx].home_score=null;matches[idx].away_score=null;}
+  renderApp();
+};
+
+const renderModal=()=>{
+  const ma=$("modal-area");
+  if(!ma)return;
+  if(modal==="profile"){
+    let en=profile.name||"",ea=profile.avatar||"⚽";
+    ma.innerHTML=`<div class="mo" onclick="if(event.target===this){modal=null;renderApp()}"><div class="md">
+      <div class="mt">Mi Perfil</div>
+      <div style="font-size:52px;text-align:center;margin-bottom:8px" id="pav">${ea}</div>
+      <div class="ig" style="margin-bottom:14px"><label class="il">Avatar</label><div class="ag">${AVS.map(a=>`<div class="ao${ea===a?" on":""}" onclick="document.getElementById('pav').textContent='${a}';document.getElementById('eav').value='${a}'">${a}</div>`).join("")}</div></div>
+      <input type="hidden" id="eav" value="${ea}"/>
+      <div class="ig" style="margin-bottom:14px"><label class="il">Nombre visible</label><input class="inf" id="en" value="${h(en)}"/></div>
+      <p style="font-size:11px;color:var(--text3);margin-bottom:14px">📧 ${session.user.email}</p>
+      <div style="display:flex;gap:8px"><button class="btn bg" style="flex:1" onclick="saveProfile()">Guardar</button><button class="btn bo" style="flex:1" onclick="modal=null;renderApp()">Cancelar</button></div>
+    </div></div>`;
+  } else if(modal==="newGroup"){
+    ma.innerHTML=`<div class="mo" onclick="if(event.target===this){modal=null;renderApp()}"><div class="md">
+      <div class="mt">Crear Grupo</div>
+      <div class="ig" style="margin-bottom:14px"><label class="il">Nombre del grupo</label><input class="inf" id="gn" placeholder="Ej: Familia, Trabajo, Amigos..."/></div>
+      <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Se genera un código automático para invitar amigos.</p>
+      <div style="display:flex;gap:8px"><button class="btn bg" style="flex:1" onclick="createGroup()">Crear</button><button class="btn bo" style="flex:1" onclick="modal=null;renderApp()">Cancelar</button></div>
+    </div></div>`;
+    setTimeout(()=>{const i=$("gn");if(i)i.onkeydown=e=>{if(e.key==="Enter")createGroup();};},50);
+  } else if(modal==="joinGroup"){
+    ma.innerHTML=`<div class="mo" onclick="if(event.target===this){modal=null;renderApp()}"><div class="md">
+      <div class="mt">Unirme a Grupo</div>
+      <div class="ig" style="margin-bottom:14px"><label class="il">Código de invitación</label><input class="inf" id="jc" placeholder="Ej: a1b2c3d4" style="letter-spacing:3px;text-transform:uppercase;font-family:'Bebas Neue',cursive;font-size:22px"/></div>
+      <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Pídele el código al admin del grupo.</p>
+      <div style="display:flex;gap:8px"><button class="btn bg" style="flex:1" onclick="joinGroup()">Unirme</button><button class="btn bo" style="flex:1" onclick="modal=null;renderApp()">Cancelar</button></div>
+    </div></div>`;
+    setTimeout(()=>{const i=$("jc");if(i)i.onkeydown=e=>{if(e.key==="Enter")joinGroup();};},50);
+  }
+};
+
+const openProfile=()=>{modal="profile";renderApp();};
+
+const saveProfile=async()=>{
+  const n=$("en").value,a=$("eav").value;
+  if(!n.trim())return;
+  await api(S+"/rest/v1/profiles?id=eq."+profile.id,tok(),{method:"PATCH",body:JSON.stringify({name:n,avatar:a||profile.avatar})});
+  profile.name=n;profile.avatar=a||profile.avatar;
+  modal=null;showToast("Perfil actualizado ✓");renderApp();
+};
+
+const createGroup=async()=>{
+  const n=$("gn");
+  if(!n||!n.value.trim())return;
+  const r=await api(S+"/rest/v1/groups",tok(),{method:"POST",body:JSON.stringify({name:n.value.trim(),admin_id:profile.id})});
+  if(Array.isArray(r)&&r[0]){
+    await api(S+"/rest/v1/group_members",tok(),{method:"POST",body:JSON.stringify({group_id:r[0].id,user_id:profile.id})});
+    groups.push(r[0]);curGroup=r[0];modal=null;page="matches";
+    await loadGroupData(r[0].id);
+    showToast("Grupo \""+r[0].name+"\" creado 🎉");renderApp();
+  } else showToast("Error al crear","error");
+};
+
+const joinGroup=async()=>{
+  const c=$("jc");
+  if(!c||!c.value.trim())return;
+  const found=await api(S+"/rest/v1/groups?invite_code=eq."+c.value.trim()+"&select=*",tok());
+  if(!Array.isArray(found)||!found[0]){showToast("Código inválido","error");return;}
+  const g=found[0];
+  await api(S+"/rest/v1/group_members",tok(),{method:"POST",body:JSON.stringify({group_id:g.id,user_id:profile.id})});
+  if(!groups.find(x=>x.id===g.id))groups.push(g);
+  curGroup=g;modal=null;page="matches";
+  await loadGroupData(g.id);
+  showToast("¡Te uniste a "+g.name+"!");renderApp();
+};
+
+const doLogout=()=>{saveS(null);session=null;profile=null;curGroup=null;groups=[];matches=[];preds={};members=[];render();};
+
+// INIT
+(async()=>{
+  session=loadS();
+  if(session&&session.access_token){
+    await initApp();
+  }
+  render();
+})();
 </script>
 </body>
 </html>
