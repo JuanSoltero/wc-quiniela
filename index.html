@@ -169,11 +169,26 @@ const calcPts=(pred,m)=>{
   const hw=pred.winner===cw,ho=pred.over_under===co;
   return hw&&ho?3:hw||ho?1:0;
 };
-const fmtDate=d=>new Date(d+"T12:00:00").toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"});
+const fmtDate=d=>{
+  if(!d) return "";
+  try{ return new Date(d+"T12:00:00").toLocaleDateString("es-MX",{weekday:"short",day:"numeric",month:"short"}); }catch(e){return d;}
+};
+const parseMatchDate=(dateStr,timeStr)=>{
+  if(!dateStr) return new Date(0);
+  // timeStr can be "13:00", "13:00:00", or null
+  const t = (timeStr||"12:00").slice(0,5);
+  try{ return new Date(`${dateStr}T${t}:00-05:00`); }catch(e){ return new Date(0); }
+};
 const isStarted=m=>{
   if(m.started) return true;
-  const matchUTC = new Date(`${m.match_date}T${(m.match_time||"00:00")}:00-05:00`);
-  return new Date() >= matchUTC;
+  return new Date() >= parseMatchDate(m.match_date, m.match_time);
+};
+const fmtLocalTime=(dateStr,timeStr)=>{
+  try{
+    const d = parseMatchDate(dateStr, timeStr);
+    if(isNaN(d)) return timeStr||"";
+    return d.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit",timeZoneName:"short"});
+  }catch(e){ return timeStr||""; }
 };
 
 function Toast({msg,type,onDone}){
