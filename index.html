@@ -214,7 +214,7 @@ const initApp=async()=>{   try{
   ]);
   if(pr&&pr[0])profile=pr[0];
   if(Array.isArray(gr))groups=gr;
-  if(Array.isArray(mt))matches=mt;
+  if(Array.isArray(mt))matches=mt;   }catch(e){saveS(null);session=null;render();}
 };
 
 const loadGroupData=async(gid)=>{
