@@ -191,7 +191,7 @@ const doLogin=async()=>{
     $("lerr").textContent="Email o contraseña incorrectos";$("lerr").style.display="block";
     $("lbtn").textContent="Entrar";$("lbtn").disabled=false;
   } else {
-    saveS(d);try{await initApp();}catch(e){saveS(null);session=null;}render();
+   saveS(d);try{const to=new Promise((_,r)=>setTimeout(()=>r("t"),6000));await Promise.race([initApp(),to]);}catch(e){saveS(null);session=null;}render();
   }
 };
 
