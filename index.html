@@ -204,7 +204,7 @@ const doRegister=async()=>{
   else{showToast("¡Cuenta creada! Ya puedes entrar");showReg=false;renderLoginForm();}
 };
 
-const initApp=async()=>{
+const initApp=async()=>{   try{
   if(!session||!session.access_token)return;
   const t=tok(),uid=session.user.id;
   const [pr,gr,mt]=await Promise.all([
