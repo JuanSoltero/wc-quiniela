@@ -518,7 +518,9 @@ const doLogout=()=>{saveS(null);session=null;profile=null;curGroup=null;groups=[
 (async()=>{
   session=loadS();
   if(session&&session.access_token){
-    await initApp();
+ const to=new Promise((_,r)=>setTimeout(()=>r("timeout"),8000));
+    try{await Promise.race([initApp(),to]);}
+    catch(e){saveS(null);session=null;}
   }
   render();
 })();
