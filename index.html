@@ -209,7 +209,7 @@ setTimeout(()=>{const s=document.getElementById("slow");if(s)s.style.display="bl
   const t=tok(),uid=session.user.id;
   const [pr,gr,mt]=await Promise.all([
     api(S+"/rest/v1/profiles?id=eq."+uid+"&select=*",t),
-    api(S+"/rest/v1/group_members?user_id=eq."+uid+"&select=group_id",t).then(async ms=>{if(!Array.isArray(ms)||ms.length===0)return[];const ids=ms.map(m=>m.group_id);return api(S+"/rest/v1/groups?id=in.("+ids.join(",")+")"+"&select=*",t);}),
+    api(S+"/rest/v1/groups?select=*",t),
     api(S+"/rest/v1/matches?select=*&order=match_date.asc,match_time.asc",t)
   ]);
   if(pr&&pr[0])profile=pr[0];
