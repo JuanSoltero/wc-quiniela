@@ -332,8 +332,8 @@ const matchCard=(m,pred)=>{
       </button>`).join("")}
     </div>
     <div class="our">
-      <button class="ob ${pred&&pred.over_under==="over"?"on":""}" onclick="doPred(${m.id},'over_under','over')">⬆ Over 2.5</button>
-      <button class="ob ${pred&&pred.over_under==="under"?"on":""}" onclick="doPred(${m.id},'over_under','under')">⬇ Under 2.5</button>
+      <button class="ob ${pred&&pred.over_under==="over"?"on":""}" onclick="doPred(${m.id},'over_under','over')">⬆ Over ${m.ou_line||2.5}</button>
+      <button class="ob ${pred&&pred.over_under==="under"?"on":""}" onclick="doPred(${m.id},'over_under','under')">⬇ Under ${m.ou_line||2.5}</button>
     </div>`}
   </div>`;
 };
