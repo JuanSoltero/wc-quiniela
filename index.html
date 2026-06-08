@@ -96,7 +96,7 @@ input.inf:focus{border-color:rgba(255,215,0,.5)}
 </style>
 </head>
 <body>
-<div id="app"><div class="load"><div class="spin">⚽</div>CARGANDO...</div></div>
+<div id="app"><div class="load"><div class="spin">⚽</div>CARGANDO...<div id="slow" style="display:none;margin-top:20px"><button onclick="localStorage.clear();location.reload()" style="background:rgba(255,215,0,.2);border:1px solid rgba(255,215,0,.4);color:#FFD700;padding:10px 20px;border-radius:10px;cursor:pointer;font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;letter-spacing:1px">¿Tarda mucho? Toca aquí</button></div></div></div>
 <script>
 const S="https://drzdkghucqgjedfsblbt.supabase.co";
 const K="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyemRrZ2h1Y3FnamVkZnNibGJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA1Mjg0MTQsImV4cCI6MjA5NjEwNDQxNH0.pmiVKy4byc7FutacGwMSjMLzMk-rVB0mcaMGAoHoG_c";
@@ -292,7 +292,7 @@ const copyCode=code=>{if(navigator.clipboard)navigator.clipboard.writeText(code)
 const selectGroup=async id=>{
   curGroup=groups.find(g=>g.id===id);
   page="matches";
-  $("main").innerHTML=`<div class="load"><div class="spin">⚽</div>Cargando...</div>`;
+  $("main").innerHTML=`<div class="load"><div class="spin">⚽</div>CARGANDO...<div id="slow" style="display:none;margin-top:20px"><button onclick="localStorage.clear();location.reload()" style="background:rgba(255,215,0,.2);border:1px solid rgba(255,215,0,.4);color:#FFD700;padding:10px 20px;border-radius:10px;cursor:pointer;font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;letter-spacing:1px">¿Tarda mucho? Toca aquí</button></div></div>`;
   await loadGroupData(id);
   renderApp();
 };
