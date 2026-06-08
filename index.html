@@ -438,7 +438,7 @@ const saveResult=async(id)=>{
   renderApp();
 };
 
-const clearResult=async(id)=>{
+const saveOU=async(id)=>{   const v=document.getElementById("ou"+id);   if(!v)return;   await api(S+"/rest/v1/matches?id=eq."+id,tok(),{method:"PATCH",body:JSON.stringify({ou_line:parseFloat(v.value)})});   const idx=matches.findIndex(m=>m.id===id);   if(idx>=0)matches[idx].ou_line=parseFloat(v.value);   showToast("O/U actualizado ✓"); };
   await api(S+"/rest/v1/matches?id=eq."+id,tok(),{method:"PATCH",body:JSON.stringify({home_score:null,away_score:null})});
   const idx=matches.findIndex(m=>m.id===id);
   if(idx>=0){matches[idx].home_score=null;matches[idx].away_score=null;}
