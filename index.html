@@ -323,7 +323,7 @@ const matchCard=(m,pred)=>{
     </div>
     ${p!=null?`<div style="margin-bottom:8px"><span class="ptb ${p===3?"pt3":p===1?"pt1":"pt0"}">${p===3?"🏆 +3 PTS":p===1?"✅ +1 PT":"❌ 0 PTS"}</span>${pred?`<span style="font-size:11px;color:var(--text3);margin-left:6px">${FL[pred.winner]||""} ${h(pred.winner)} · ${pred.over_under==="over"?`Over ${m.ou_line||2.5}`:`Under ${m.ou_line||2.5}`}</span>`:""}
     </div>`:""}
-    ${pred&&m.home_score==null?`<div style="margin-bottom:8px;font-size:11px;color:var(--text3)">Tu pick: <strong style="color:var(--text2)">${FL[pred.winner]||""} ${h(pred.winner)}</strong>${pred.over_under?` · <strong style="color:var(--blue)">${pred.over_under==="over"?"Over 2.5":"Under 2.5"}</strong>`:""}</div>`:""}
+    ${pred&&m.home_score==null?`<div style="margin-bottom:8px;font-size:11px;color:var(--text3)">Tu pick: <strong style="color:var(--text2)">${FL[pred.winner]||""} ${h(pred.winner)}</strong>${pred.over_under?` · <strong style="color:var(--blue)">${pred.over_under==="over"?`Over ${m.ou_line||2.5}`:`Under ${m.ou_line||2.5}`}</strong>`:""}</div>`:""}
     ${started?(!pred&&!m.home_score?`<span class="lkb">🔒 Cerrado</span>`:""):`
     <div class="pr">
       ${[m.home,"Empate",m.away].map(opt=>`<button class="pb ${pred&&pred.winner===opt?"on":""}" onclick="doPred(${m.id},'winner','${opt.replace(/'/g,"\\'")}')">
