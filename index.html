@@ -503,7 +503,7 @@ const createGroup=async()=>{
 const joinGroup=async()=>{
   const c=$("jc");
   if(!c||!c.value.trim())return;
-  const found=await api(S+"/rest/v1/groups?invite_code=eq."+c.value.trim().toLowerCase().toLowerCase().toLowerCase()+"&select=*",tok());
+  const found=await api(S+"/rest/v1/groups?invite_code=eq."+c.value.trim().toLowerCase()+"&select=*",SUPA_KEY);
   if(!Array.isArray(found)||!found[0]){showToast("Código inválido","error");return;}
   const g=found[0];
   await api(S+"/rest/v1/group_members",tok(),{method:"POST",body:JSON.stringify({group_id:g.id,user_id:profile.id})});
