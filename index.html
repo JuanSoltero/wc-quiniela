@@ -415,7 +415,7 @@ const renderAdmin=()=>{
       <input id="hs${mt.id}" type="number" min="0" max="20" placeholder="0" style="width:50px;padding:8px 6px;text-align:center;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:20px;font-weight:700;outline:none"/>
       <span style="font-size:18px;color:var(--text3);font-weight:700">–</span>
       <input id="as${mt.id}" type="number" min="0" max="20" placeholder="0" style="width:50px;padding:8px 6px;text-align:center;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:20px;font-weight:700;outline:none"/>
-      <button class="btn bg bxs" onclick="saveResult(${mt.id})">Guardar</button>
+      <button class="btn bg bxs" onclick="saveResult(${mt.id})">Guardar</button></div><div style="display:flex;align-items:center;gap:8px;margin-top:8px"><span style="font-size:12px;color:var(--text3);font-weight:700">O/U LINE:</span><input id="ou${mt.id}" type="number" step="0.5" min="0.5" max="9.5" value="${mt.ou_line||2.5}" style="width:60px;padding:6px;text-align:center;background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:8px;color:var(--gold);font-size:16px;font-weight:700;outline:none"/><button class="btn bo bxs" onclick="saveOU(${mt.id})">OK</button>
     </div>`}
   </div>`).join("")}`;
 };
