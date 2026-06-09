@@ -491,7 +491,7 @@ const saveProfile=async()=>{
 const createGroup=async()=>{
   const n=$("gn");
   if(!n||!n.value.trim())return;
-  const r=await api(S+"/rest/v1/groups",tok(),{method:"POST",body:JSON.stringify({name:n.value.trim(),admin_id:profile.id})});
+  const r=await api(S+"/rest/v1/rpc/create_group",tok(),{method:"POST",body:JSON.stringify({group_name:n.value.trim(),user_id:profile.id})});
   if(Array.isArray(r)&&r[0]){
     await api(S+"/rest/v1/group_members",tok(),{method:"POST",body:JSON.stringify({group_id:r[0].id,user_id:profile.id})});
     groups.push(r[0]);curGroup=r[0];modal=null;page="matches";
