@@ -340,7 +340,7 @@ const matchCard=(m,pred)=>{
 
 const doPred=async(matchId,field,value)=>{
   const m=matches.find(x=>x.id===matchId);
-  if(!m||isStarted(m))return;
+  if(!m||isStarted(m))return;if(!curGroup){showToast('⚠️ Únete a un grupo primero para predecir','error');return;}
   const uid=profile.id;
   const existing=(preds[uid]&&preds[uid][matchId])||{};
   const np=Object.assign({},existing,{user_id:uid,match_id:matchId,updated_at:new Date().toISOString()});
