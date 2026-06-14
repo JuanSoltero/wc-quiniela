@@ -252,7 +252,7 @@ const renderApp=()=>{
     <div class="main" id="main"></div>
     <div class="nav">
       <button class="nb ${page==="groups"?"on":""}" onclick="page='groups';renderApp()"><span class="ni">👥</span>Grupos</button>
-      <button class="nb ${page==="matches"?"on":""}" onclick="if(!curGroup){showToast('Selecciona un grupo','error');return;}page='matches';renderApp()"><span class="ni">⚽</span>Partidos</button>
+      <button class="nb ${page==="matches"?"on":""}" onclick="if(!curGroup){showToast('⚠️ Debes unirte a un grupo primero para poder predecir','error');return;}page='matches';renderApp()"><span class="ni">⚽</span>Partidos</button>
       <button class="nb ${page==="table"?"on":""}" onclick="page='table';renderApp()"><span class="ni">🏆</span>Tabla</button>
       ${isAdmin()?`<button class="nb ${page==="admin"?"on":""}" onclick="page='admin';renderApp()"><span class="ni">⚙️</span>Admin</button>`:""}
       <button class="nb" onclick="doLogout()"><span class="ni">🚪</span>Salir</button>
