@@ -213,7 +213,7 @@ setTimeout(()=>{const s=document.getElementById("slow");if(s)s.style.display="bl
     api(S+"/rest/v1/matches?select=*&order=match_date.asc,match_time.asc",t)
   ]);
   if(pr&&pr[0])profile=pr[0];
-  if(Array.isArray(gr))groups=gr;
+  if(Array.isArray(gr))groups=gr;   const savedGroup=localStorage.getItem('wc_group');   if(savedGroup&&groups.find(g=>g.id===savedGroup)){curGroup=groups.find(g=>g.id===savedGroup);await loadGroupData(savedGroup);}
   if(Array.isArray(mt))matches=mt;
 }catch(e){saveS(null);session=null;render();}
 };
@@ -290,7 +290,7 @@ const renderGroups=()=>{
 const copyCode=code=>{if(navigator.clipboard)navigator.clipboard.writeText(code);showToast("Código copiado 📋");};
 
 const selectGroup=async id=>{
-  curGroup=groups.find(g=>g.id===id);
+  curGroup=groups.find(g=>g.id===id);   localStorage.setItem('wc_group',id);
   page="matches";
   $("main").innerHTML=`<div class="load"><div class="spin">⚽</div>CARGANDO...<div id="slow" style="display:none;margin-top:20px"><button onclick="localStorage.clear();location.reload()" style="background:rgba(255,215,0,.2);border:1px solid rgba(255,215,0,.4);color:#FFD700;padding:10px 20px;border-radius:10px;cursor:pointer;font-family:Barlow Condensed,sans-serif;font-size:14px;font-weight:700;letter-spacing:1px">¿Tarda mucho? Toca aquí</button></div></div>`;
   await loadGroupData(id);
