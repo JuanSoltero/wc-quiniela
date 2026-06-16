@@ -226,7 +226,7 @@ const loadGroupData=async(gid)=>{
   if(members.length===0){mProfs={};preds={};return;}
   const [pr,pp]=await Promise.all([
     api(S+"/rest/v1/profiles?id=in.("+members.join(",")+")"+"&select=*",t),
-    api(S+"/rest/v1/predictions?user_id=in.("+members.join(",")+")"+"&select=*",t)
+    api(S+"/rest/v1/predictions?user_id=in.("+members.join(",")+")"+"&select=*&limit=5000",t)
   ]);
   if(Array.isArray(pr)){mProfs={};pr.forEach(p=>{mProfs[p.id]=p;});}
   if(Array.isArray(pp)){preds={};pp.forEach(p=>{if(!preds[p.user_id])preds[p.user_id]={};preds[p.user_id][p.match_id]=p;});}
