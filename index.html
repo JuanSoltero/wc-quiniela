@@ -129,7 +129,7 @@ const fmtTime=(d,t)=>{if(!d||!t)return t||"";try{const dt=new Date(d+"T"+(t||"12
 const isStarted=m=>{if(m.started)return true;try{return new Date()>=new Date(m.match_date+"T"+(m.match_time||"12:00").substring(0,5)+":00-06:00");}catch{return false;}};
 const winner=(h,a,hs,as)=>hs>as?h:as>hs?a:"Empate";
 const ou=(hs,as,line)=>(hs+as)>(line||2.5)?"over":"under";
-const pts=(pred,m)=>{if(m.home_score==null||!pred||!pred.winner)return null;const hw=pred.winner===winner(m.home,m.away,m.home_score,m.away_score),ho=pred.over_under===ou(m.home_score,m.away_score,m.ou_line);return hw&&ho?3:hw||ho?1:0;};
+const pts=(pred,m)=>{if(m.home_score==null||!pred||!pred.winner)return null;const hw=pred.winner===winner(m.home,m.away,m.home_score,m.away_score),ho=pred.over_under===ou(m.home_score,m.away_score,m.ou_line);return hw&&ho?(m.phase==="Fase de Grupos"?3:4):hw||ho?1:0;};
 
 const showToast=(msg,type)=>{
   if(toastT)clearTimeout(toastT);
