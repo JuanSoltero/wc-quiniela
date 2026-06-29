@@ -321,7 +321,7 @@ const matchCard=(m,pred)=>{
       ${m.home_score!=null?`<div class="mr">${m.home_score} – ${m.away_score}</div>`:`<span class="mvs">VS</span>`}
       <div class="ts"><span class="tf">${FL[m.away]||"🏳️"}</span><span class="tn">${h(m.away)}</span></div>
     </div>
-    ${p!=null?`<div style="margin-bottom:8px"><span class="ptb ${p===3?"pt3":p===1?"pt1":"pt0"}">${p===3?"🏆 +3 PTS":p===1?"✅ +1 PT":"❌ 0 PTS"}</span>${pred?`<span style="font-size:11px;color:var(--text3);margin-left:6px">${FL[pred.winner]||""} ${h(pred.winner)} · ${pred.over_under==="over"?`Over ${m.ou_line||2.5}`:`Under ${m.ou_line||2.5}`}</span>`:""}
+    ${p!=null?`<div style="margin-bottom:8px"><span class="ptb ${p===3?"pt3":p===1?"pt1":"pt0"}">${p>=3?"🏆 +"+p+" PTS":p===1?"✅ +1 PT":"❌ 0 PTS"}</span>${pred?`<span style="font-size:11px;color:var(--text3);margin-left:6px">${FL[pred.winner]||""} ${h(pred.winner)} · ${pred.over_under==="over"?`Over ${m.ou_line||2.5}`:`Under ${m.ou_line||2.5}`}</span>`:""}
     </div>`:""}
     ${pred&&m.home_score==null?`<div style="margin-bottom:8px;font-size:11px;color:var(--text3)">Tu pick: <strong style="color:var(--text2)">${FL[pred.winner]||""} ${h(pred.winner)}</strong>${pred.over_under?` · <strong style="color:var(--blue)">${pred.over_under==="over"?`Over ${m.ou_line||2.5}`:`Under ${m.ou_line||2.5}`}</strong>`:""}</div>`:""}
     ${started?(!pred&&!m.home_score?`<span class="lkb">🔒 Cerrado</span>`:""):`
